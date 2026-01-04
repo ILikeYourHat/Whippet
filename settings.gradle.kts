@@ -1,8 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":androidApp")
-
-
 rootProject.name = "Whippet"
 
 pluginManagement {
@@ -36,4 +33,5 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
+include(":androidApp")
 include(":commonApp")
