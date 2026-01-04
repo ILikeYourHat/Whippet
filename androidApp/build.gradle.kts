@@ -1,10 +1,12 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
 }
 
 android {
     namespace = "io.github.ilikeyourhat.whippet.app"
+
     compileSdk {
         version = release(36)
     }
@@ -36,7 +38,7 @@ android {
 
 kotlin {
     compilerOptions {
-//        jvmTarget = "11"
+        jvmTarget = JvmTarget.JVM_11
     }
 }
 
