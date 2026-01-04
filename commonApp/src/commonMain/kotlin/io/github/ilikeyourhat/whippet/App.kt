@@ -15,9 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-import whippet.composeapp.generated.resources.Res
-import whippet.composeapp.generated.resources.compose_multiplatform
+import whippet.commonapp.generated.resources.Res
+import whippet.commonapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview

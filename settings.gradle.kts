@@ -1,5 +1,9 @@
+@file:Suppress("UnstableApiUsage")
+
+include(":androidApp")
+
+
 rootProject.name = "Whippet"
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
@@ -32,4 +36,4 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":composeApp")
+include(":commonApp")
