@@ -1,11 +1,11 @@
 package io.github.ilikeyourhat.whippet.ui
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.automirrored.filled.Note
+import androidx.compose.material.icons.automirrored.outlined.Note
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.PieChart
 import androidx.compose.material.icons.outlined.Settings
@@ -27,10 +27,10 @@ sealed class Screen(
         unSelectedIcon = Icons.Outlined.PieChart
     )
 
-    data object History : BottomNavigationScreen(
-        route = "history",
-        selectedIcon = Icons.Filled.CalendarMonth,
-        unSelectedIcon = Icons.Outlined.CalendarMonth
+    data object Notes : BottomNavigationScreen(
+        route = "notes",
+        selectedIcon = Icons.AutoMirrored.Filled.Note,
+        unSelectedIcon = Icons.AutoMirrored.Outlined.Note
     )
 
     data object Settings : BottomNavigationScreen(

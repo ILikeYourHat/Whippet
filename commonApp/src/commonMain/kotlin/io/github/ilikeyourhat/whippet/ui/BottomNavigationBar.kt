@@ -19,7 +19,7 @@ fun BottomNavigationBar(
     val items = listOf(
         Screen.Home,
         Screen.Stats,
-        Screen.History,
+        Screen.Notes,
         Screen.Settings
     )
     val isCurrentScreen: (Screen) -> Boolean = { it.route == currentRoute }

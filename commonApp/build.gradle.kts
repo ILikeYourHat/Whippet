@@ -37,7 +37,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.navigation.compose)
-
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -47,6 +46,10 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
         }
     }
+}
+
+dependencies {
+    commonMainImplementation(compose.uiTooling)
 }
 
 compose.desktop {
