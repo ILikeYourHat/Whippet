@@ -15,11 +15,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
 import io.github.ilikeyourhat.whippet.ui.Screen
 
 @Composable
 fun App(
+    appGraph: AppGraph,
     modifier: Modifier = Modifier
 ) {
     val navController: NavHostController = rememberNavController()
