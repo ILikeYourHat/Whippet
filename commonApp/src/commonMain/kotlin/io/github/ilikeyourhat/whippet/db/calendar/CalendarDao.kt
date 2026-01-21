@@ -11,14 +11,14 @@ import kotlinx.datetime.LocalDate
 interface CalendarDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: CalendarEntryEntity)
+    suspend fun insert(item: CalendarEventEntity)
 
-    @Query("SELECT * FROM CalendarEntryEntity WHERE date = :date")
-    suspend fun getByDate(date: LocalDate): CalendarEntryEntity?
+    @Query("SELECT * FROM CalendarEventEntity WHERE date = :date")
+    suspend fun getByDate(date: LocalDate): CalendarEventEntity?
 
-    @Query("SELECT * FROM CalendarEntryEntity")
-    fun observe(): Flow<List<CalendarEntryEntity>>
+    @Query("SELECT * FROM CalendarEventEntity")
+    fun observe(): Flow<List<CalendarEventEntity>>
 
-    @Query("DELETE FROM CalendarEntryEntity WHERE date = :date")
+    @Query("DELETE FROM CalendarEventEntity WHERE date = :date")
     suspend fun clearByDate(date: LocalDate)
 }

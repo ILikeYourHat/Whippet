@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import kotlinx.datetime.LocalDate
 
 @Entity
-data class CalendarEntryEntity(
+data class CalendarEventEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val date: LocalDate,

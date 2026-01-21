@@ -4,12 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
-import io.github.ilikeyourhat.whippet.db.calendar.CalendarEntryEntity
+import io.github.ilikeyourhat.whippet.db.calendar.CalendarEventEntity
 import io.github.ilikeyourhat.whippet.db.converter.DateTimeConverters
 
 @Database(
     entities = [
-        CalendarEntryEntity::class
+        CalendarEventEntity::class
     ],
     version = 1
 )

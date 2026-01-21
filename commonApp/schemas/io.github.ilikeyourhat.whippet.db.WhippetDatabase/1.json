@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9e7778c65b75a36051ab140bef023f0c",
+    "identityHash": "74e575ee9662be1331a9e64edca726bd",
     "entities": [
       {
-        "tableName": "CalendarEntryEntity",
+        "tableName": "CalendarEventEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `text` TEXT NOT NULL)",
         "fields": [
           {
@@ -37,7 +37,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9e7778c65b75a36051ab140bef023f0c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '74e575ee9662be1331a9e64edca726bd')"
     ]
   }
 }
