@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.androidKmpLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.androidx.room)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.metro)
 }
 
@@ -26,6 +28,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite)
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -45,6 +49,19 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
         }
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    listOf(
+        "kspAndroid",
+        "kspJvm",
+    ).forEach {
+        add(it, libs.androidx.room.compiler)
     }
 }
 
