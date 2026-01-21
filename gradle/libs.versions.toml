@@ -18,6 +18,7 @@ junit = "4.13.2"
 
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
+kotlinx-datetime = "0.7.1"
 ksp = "2.3.4"
 
 material = "1.13.0"
@@ -52,6 +53,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 material-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIcons" }
