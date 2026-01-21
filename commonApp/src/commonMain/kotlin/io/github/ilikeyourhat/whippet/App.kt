@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
+import io.github.ilikeyourhat.whippet.ui.NoteAddScreen
 import io.github.ilikeyourhat.whippet.ui.NoteListScreen
 import io.github.ilikeyourhat.whippet.ui.Screen
 
@@ -47,10 +48,19 @@ fun App(
                     Text("hello2")
                 }
                 composable(route = Screen.Notes.route) {
-                    NoteListScreen(modifier = Modifier.fillMaxSize())
+                    NoteListScreen(
+                        navController = navController,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
                 composable(route = Screen.Settings.route) {
                     Text("hello4")
+                }
+                composable(route = Screen.NotesAdd.route) {
+                    NoteAddScreen(
+                        navController = navController,
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
             BottomNavigationBar(

@@ -33,6 +33,10 @@ sealed class Screen(
         unSelectedIcon = Icons.AutoMirrored.Outlined.Note
     )
 
+    data object NotesAdd : Screen(
+        route = "notesAdd"
+    )
+
     data object Settings : BottomNavigationScreen(
         route = "settings",
         selectedIcon = Icons.Filled.Settings,

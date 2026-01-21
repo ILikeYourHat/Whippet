@@ -11,15 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun NoteListScreen(
-    modifier: Modifier = Modifier
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
 ) {
     Box(modifier.fillMaxSize()) {
         FloatingActionButton(
-            onClick = {},
+            onClick = {
+                navController.navigate(Screen.NotesAdd.route)
+            },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
@@ -35,5 +40,5 @@ fun NoteListScreen(
 @Composable
 @Preview
 private fun NoteListScreen_Empty() {
-    NoteListScreen()
+    NoteListScreen(rememberNavController())
 }
