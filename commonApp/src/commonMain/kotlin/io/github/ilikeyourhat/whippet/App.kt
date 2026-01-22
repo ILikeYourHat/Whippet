@@ -23,6 +23,8 @@ import io.github.ilikeyourhat.whippet.ui.NoteAddScreen
 import io.github.ilikeyourhat.whippet.ui.NoteListScreen
 import io.github.ilikeyourhat.whippet.ui.Screen
 import io.github.ilikeyourhat.whippet.ui.calendar.CalendarScreen
+import io.github.ilikeyourhat.whippet.ui.calendar.add.AddCalendarEventScreen
+import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
 
 @Composable
 fun App(
@@ -46,8 +48,11 @@ fun App(
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     LaunchedEffect("NavigationEvents") {
-        navigator.route.collect { screen ->
-            navController.navigate(screen.route)
+        navigator.route.collect { event ->
+            when (event) {
+                is NavigatorEvent.Destination -> navController.navigate(event.screen.route)
+                is NavigatorEvent.BackInvocation -> navController.popBackStack()
+            }
         }
     }
 
@@ -87,10 +92,7 @@ fun App(
                     )
                 }
                 composable(route = Screen.AddCalendarEvent.route) {
-                    NoteAddScreen(
-                        navController = navController,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    AddCalendarEventScreen(modifier)
                 }
             }
             BottomNavigationBar(

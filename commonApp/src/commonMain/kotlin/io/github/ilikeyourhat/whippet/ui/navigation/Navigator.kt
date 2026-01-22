@@ -11,10 +11,14 @@ import kotlinx.coroutines.flow.SharedFlow
 @Inject
 class Navigator {
 
-    private val _route = MutableSharedFlow<Screen>()
-    val route: SharedFlow<Screen> = _route
+    private val _route = MutableSharedFlow<NavigatorEvent>()
+    val route: SharedFlow<NavigatorEvent> = _route
 
-    suspend fun navigateTo(event: Screen) {
-        _route.emit(event)
+    suspend fun navigateTo(screen: Screen) {
+        _route.emit(NavigatorEvent.Destination(screen))
+    }
+
+    suspend fun goBack() {
+        _route.emit(NavigatorEvent.BackInvocation)
     }
 }
