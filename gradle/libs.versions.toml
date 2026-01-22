@@ -57,6 +57,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 material-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIcons" }
+metrox-viewmodel-compose = { module = "dev.zacsweers.metro:metrox-viewmodel-compose", version.ref = "metro" }
 
 [plugins]
 

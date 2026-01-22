@@ -7,8 +7,11 @@ import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import io.github.ilikeyourhat.whippet.db.WhippetDatabase
 import io.github.ilikeyourhat.whippet.db.WhippetDatabaseFactory
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
+import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 
 interface AppGraph : ViewModelGraph {
+
+    val navigator: Navigator
 
     @Provides
     @SingleIn(AppScope::class)

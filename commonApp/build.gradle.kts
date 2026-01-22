@@ -42,8 +42,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.kotlinx.datetime)
-
-            implementation("dev.zacsweers.metro:metrox-viewmodel-compose:0.10.0")
+            implementation(libs.metrox.viewmodel.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

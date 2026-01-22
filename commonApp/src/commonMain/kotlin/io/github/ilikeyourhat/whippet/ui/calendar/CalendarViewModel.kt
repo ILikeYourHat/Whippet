@@ -8,6 +8,8 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarEventEntity
+import io.github.ilikeyourhat.whippet.ui.Screen
+import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -20,7 +22,8 @@ import kotlin.time.Clock
 @ContributesIntoMap(AppScope::class)
 @ViewModelKey(CalendarViewModel::class)
 class CalendarViewModel(
-    val calendarDao: CalendarDao
+    val calendarDao: CalendarDao,
+    val navigator: Navigator
 ) : ViewModel() {
 
     init {
@@ -50,4 +53,10 @@ class CalendarViewModel(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = CalendarScreenState.Loading,
         )
+
+    fun onAddEventClick() {
+        viewModelScope.launch {
+            navigator.navigateTo(Screen.AddCalendarEvent)
+        }
+    }
 }

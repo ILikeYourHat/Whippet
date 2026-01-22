@@ -37,6 +37,10 @@ sealed class Screen(
         route = "notesAdd"
     )
 
+    data object AddCalendarEvent : Screen(
+        route = "addCalendarEvent"
+    )
+
     data object Settings : BottomNavigationScreen(
         route = "settings",
         selectedIcon = Icons.Filled.Settings,
