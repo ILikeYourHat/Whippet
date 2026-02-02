@@ -5,18 +5,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.metroViewModel
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
 
 @Composable
 fun AddCalendarEventScreen(
@@ -27,7 +36,10 @@ fun AddCalendarEventScreen(
     AddCalendarEventScreen(
         state = state,
         modifier = modifier,
-        onBackClick = viewModel::onBackClick
+        onNameChange = viewModel::onNameChange,
+        onDateChange = viewModel::onDateChange,
+        onBackClick = viewModel::onBackClick,
+        onSaveClick = viewModel::onSaveClick
     )
 }
 
@@ -36,7 +48,10 @@ fun AddCalendarEventScreen(
 fun AddCalendarEventScreen(
     state: AddCalendarEventScreenState,
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit = {}
+    onNameChange: (String) -> Unit = {},
+    onDateChange: (LocalDate) -> Unit = {},
+    onBackClick: () -> Unit = {},
+    onSaveClick: () -> Unit = {}
 ) {
     Column(modifier = modifier) {
         TopAppBar(
@@ -52,12 +67,35 @@ fun AddCalendarEventScreen(
                         contentDescription = null
                     )
                 }
+            },
+            actions = {
+                IconButton(
+                    onClick = onSaveClick
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Save,
+                        contentDescription = null
+                    )
+                }
             }
         )
         Column(modifier = Modifier.padding(16.dp)) {
+            val nameState = rememberTextFieldState(initialText = state.name)
             TextField(
-                state = rememberTextFieldState(initialText = "Hello"),
+                state = nameState,
+            )
+            onNameChange(nameState.text.toString())
+            val datePickerState = rememberDatePickerState(state.date.toJavaLocalDate())
+            onDateChange(datePickerState.localDate())
+            DatePicker(
+                state = datePickerState,
             )
         }
     }
+}
+
+private fun DatePickerState.localDate(): LocalDate {
+    return Instant.fromEpochMilliseconds(selectedDateMillis!!)
+        .toLocalDateTime(TimeZone.currentSystemDefault())
+        .date
 }
