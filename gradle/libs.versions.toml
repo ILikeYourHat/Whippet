@@ -1,7 +1,7 @@
 [versions]
 
 agp = "9.0.0"
-androidx-activity = "1.12.2"
+androidx-activity = "1.12.3"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.17.0"
 androidx-espresso = "3.7.0"
@@ -20,12 +20,12 @@ junit = "4.13.2"
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.7.1"
-ksp = "2.3.4"
+ksp = "2.3.5"
 
 material = "1.13.0"
 material3 = "1.9.0"
 materialIcons = "1.7.3"
-metro = "0.10.0"
+metro = "0.10.2"
 
 [libraries]
 
