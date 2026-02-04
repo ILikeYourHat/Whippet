@@ -21,4 +21,7 @@ interface CalendarDao {
 
     @Query("DELETE FROM CalendarEventEntity WHERE date = :date")
     suspend fun clearByDate(date: LocalDate)
+
+    @Query("UPDATE CalendarEventEntity SET completed = :complete WHERE id = :id")
+    suspend fun markAsCompleted(id: Long, complete: Boolean)
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +21,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.metroViewModel
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarEventEntity
@@ -33,7 +36,8 @@ fun CalendarScreen(
     CalendarScreen(
         state = state,
         modifier = modifier,
-        onAddEventClick = viewModel::onAddEventClick
+        onAddEventClick = viewModel::onAddEventClick,
+        onCompleteClick = viewModel::onCompleteClick
     )
 }
 
@@ -41,11 +45,17 @@ fun CalendarScreen(
 fun CalendarScreen(
     state: CalendarScreenState,
     modifier: Modifier = Modifier,
-    onAddEventClick: () -> Unit = {}
+    onAddEventClick: () -> Unit = {},
+    onCompleteClick: (id: Long, completed: Boolean) -> Unit = { _, _ -> }
 ) {
     Box(modifier.fillMaxSize()) {
         when (state) {
-            is CalendarScreenState.Content -> EventList(state.events, Modifier.fillMaxSize())
+            is CalendarScreenState.Content -> EventList(
+                state.events,
+                onCompleteClick,
+                Modifier.fillMaxSize()
+            )
+
             else -> Unit
         }
         FloatingActionButton(
@@ -65,6 +75,7 @@ fun CalendarScreen(
 @Composable
 private fun EventList(
     events: List<CalendarEventEntity>,
+    onCompleteClick: (id: Long, completed: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -76,22 +87,44 @@ private fun EventList(
             items = events,
             key = { it.id }
         ) { item ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = item.text,
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-                Text(
-                    text = item.date.toString(),
-                    style = MaterialTheme.typography.headlineSmall
-                )
-            }
+            CalendarEvent(item, onCompleteClick, Modifier.animateItem())
         }
+    }
+}
+
+@Composable
+private fun CalendarEvent(
+    event: CalendarEventEntity,
+    onCompleteClick: (id: Long, completed: Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        val style = if (event.completed) {
+            MaterialTheme.typography.headlineSmall
+                .copy(color = Color.Gray)
+                .copy(textDecoration = TextDecoration.LineThrough)
+        } else {
+            MaterialTheme.typography.headlineSmall
+        }
+
+        Checkbox(
+            checked = event.completed,
+            onCheckedChange = { onCompleteClick(event.id, it) }
+        )
+        Text(
+            text = event.text,
+            style = style,
+            modifier = Modifier.weight(1f)
+        )
+        Text(
+            text = event.date.toString(),
+            style = style
+        )
     }
 }

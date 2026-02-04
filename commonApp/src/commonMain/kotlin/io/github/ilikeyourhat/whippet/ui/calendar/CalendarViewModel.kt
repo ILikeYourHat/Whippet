@@ -14,9 +14,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.todayIn
-import kotlin.time.Clock
 
 @Inject
 @ContributesIntoMap(AppScope::class)
@@ -26,27 +23,8 @@ class CalendarViewModel(
     val navigator: Navigator
 ) : ViewModel() {
 
-    init {
-        viewModelScope.launch {
-            calendarDao.insert(
-                CalendarEventEntity(
-                    id = 123,
-                    date = Clock.System.todayIn(TimeZone.currentSystemDefault()),
-                    text = "Hello!"
-                )
-            )
-            calendarDao.insert(
-                CalendarEventEntity(
-                    id = 1234,
-                    date = Clock.System.todayIn(TimeZone.currentSystemDefault()),
-                    text = "Hello world!"
-                )
-            )
-        }
-    }
-
     val uiState = calendarDao.observe()
-        .map { entries -> entries.sortedByDescending { it.date } }
+        .map { entries -> entries.sortedWith(eventComparator) }
         .map { events -> CalendarScreenState.Content(events) }
         .stateIn(
             scope = viewModelScope,
@@ -59,4 +37,14 @@ class CalendarViewModel(
             navigator.navigateTo(Screen.AddCalendarEvent)
         }
     }
+
+    fun onCompleteClick(id: Long, complete: Boolean) {
+        viewModelScope.launch {
+            calendarDao.markAsCompleted(id, complete)
+        }
+    }
+
+    private val eventComparator: Comparator<CalendarEventEntity> = compareBy<CalendarEventEntity> { it.completed }
+        .thenComparing { it.date }
+        .thenComparing { it.text }
 }

@@ -11,7 +11,7 @@ import io.github.ilikeyourhat.whippet.db.converter.DateTimeConverters
     entities = [
         CalendarEventEntity::class
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(
     DateTimeConverters::class
