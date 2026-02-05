@@ -7,7 +7,7 @@ import kotlinx.datetime.LocalDate
 @Entity
 data class CalendarEventEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val id: Long? = null,
     val text: String,
     val date: LocalDate,
     val completed: Boolean = false

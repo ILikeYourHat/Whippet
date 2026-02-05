@@ -10,7 +10,9 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.PieChart
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class Screen(
     val route: String
 ) {
@@ -37,7 +39,10 @@ sealed class Screen(
         route = "notesAdd"
     )
 
-    data object AddCalendarEvent : Screen(
+    @Serializable
+    data class AddCalendarEvent(
+        val id: Long? = null
+    ) : Screen(
         route = "addCalendarEvent"
     )
 
@@ -47,6 +52,7 @@ sealed class Screen(
         unSelectedIcon = Icons.Outlined.Settings
     )
 }
+
 
 sealed class BottomNavigationScreen(
     route: String,

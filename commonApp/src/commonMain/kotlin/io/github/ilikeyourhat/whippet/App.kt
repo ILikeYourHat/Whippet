@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
@@ -91,8 +92,11 @@ fun App(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable(route = Screen.AddCalendarEvent.route) {
-                    AddCalendarEventScreen(modifier)
+                composable(
+                    route = Screen.AddCalendarEvent().route,
+                ) { entry ->
+                    val route = entry.toRoute<Screen.AddCalendarEvent>()
+                    AddCalendarEventScreen(route.id, modifier)
                 }
             }
             BottomNavigationBar(

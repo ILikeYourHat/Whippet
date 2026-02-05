@@ -24,4 +24,7 @@ interface CalendarDao {
 
     @Query("UPDATE CalendarEventEntity SET completed = :complete WHERE id = :id")
     suspend fun markAsCompleted(id: Long, complete: Boolean)
+
+    @Query("SELECT * FROM CalendarEventEntity WHERE id = :id")
+    suspend fun getById(id: Long): CalendarEventEntity
 }

@@ -34,13 +34,19 @@ class CalendarViewModel(
 
     fun onAddEventClick() {
         viewModelScope.launch {
-            navigator.navigateTo(Screen.AddCalendarEvent)
+            navigator.navigateTo(Screen.AddCalendarEvent())
         }
     }
 
     fun onCompleteClick(id: Long, complete: Boolean) {
         viewModelScope.launch {
             calendarDao.markAsCompleted(id, complete)
+        }
+    }
+
+    fun onDetailsClick(id: Long) {
+        viewModelScope.launch {
+            navigator.navigateTo(Screen.AddCalendarEvent(id))
         }
     }
 

@@ -1,5 +1,6 @@
 package io.github.ilikeyourhat.whippet.ui.calendar
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -37,7 +38,8 @@ fun CalendarScreen(
         state = state,
         modifier = modifier,
         onAddEventClick = viewModel::onAddEventClick,
-        onCompleteClick = viewModel::onCompleteClick
+        onCompleteClick = viewModel::onCompleteClick,
+        onDetailsClick = viewModel::onDetailsClick
     )
 }
 
@@ -46,13 +48,15 @@ fun CalendarScreen(
     state: CalendarScreenState,
     modifier: Modifier = Modifier,
     onAddEventClick: () -> Unit = {},
-    onCompleteClick: (id: Long, completed: Boolean) -> Unit = { _, _ -> }
+    onCompleteClick: (id: Long, completed: Boolean) -> Unit = { _, _ -> },
+    onDetailsClick: (id: Long) -> Unit = {}
 ) {
     Box(modifier.fillMaxSize()) {
         when (state) {
             is CalendarScreenState.Content -> EventList(
                 state.events,
                 onCompleteClick,
+                onDetailsClick,
                 Modifier.fillMaxSize()
             )
 
@@ -76,6 +80,7 @@ fun CalendarScreen(
 private fun EventList(
     events: List<CalendarEventEntity>,
     onCompleteClick: (id: Long, completed: Boolean) -> Unit,
+    onDetailsClick: (id: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -85,9 +90,14 @@ private fun EventList(
     ) {
         items(
             items = events,
-            key = { it.id }
+            key = { it.id!! }
         ) { item ->
-            CalendarEvent(item, onCompleteClick, Modifier.animateItem())
+            CalendarEvent(
+                event = item,
+                onCompleteClick = onCompleteClick,
+                onDetailsClick = onDetailsClick,
+                modifier = Modifier.animateItem()
+            )
         }
     }
 }
@@ -96,11 +106,13 @@ private fun EventList(
 private fun CalendarEvent(
     event: CalendarEventEntity,
     onCompleteClick: (id: Long, completed: Boolean) -> Unit,
+    onDetailsClick: (id: Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clickable { onDetailsClick(event.id!!) }
             .padding(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -115,7 +127,7 @@ private fun CalendarEvent(
 
         Checkbox(
             checked = event.completed,
-            onCheckedChange = { onCompleteClick(event.id, it) }
+            onCheckedChange = { onCompleteClick(event.id!!, it) }
         )
         Text(
             text = event.text,

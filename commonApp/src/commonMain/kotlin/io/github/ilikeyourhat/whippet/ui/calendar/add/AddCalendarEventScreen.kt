@@ -20,7 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.zacsweers.metrox.viewmodel.metroViewModel
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDate
@@ -29,8 +29,11 @@ import kotlin.time.Instant
 
 @Composable
 fun AddCalendarEventScreen(
+    eventId: Long?,
     modifier: Modifier = Modifier,
-    viewModel: AddCalendarEventViewModel = metroViewModel()
+    viewModel: AddCalendarEventViewModel = assistedMetroViewModel<AddCalendarEventViewModel, AddCalendarEventViewModel.Factory> {
+        create(eventId)
+    }
 ) {
     val state by viewModel.uiState.collectAsState()
     AddCalendarEventScreen(
