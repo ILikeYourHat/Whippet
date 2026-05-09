@@ -22,12 +22,26 @@ kotlin {
         }
         withHostTest {}
     }
+
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "CommonApp"
+            binaryOption("bundleId", "io.github.ilikeyourhat.whippet")
+            isStatic = true
+        }
+    }
     
     jvm()
-    
+
+    compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.compose.ui.tooling)
         }
         commonMain.dependencies {
             implementation(libs.androidx.room.runtime)
@@ -38,7 +52,6 @@ kotlin {
             implementation(libs.material.icons)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
-            implementation(libs.compose.ui.tooling)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -52,6 +65,7 @@ kotlin {
         jvmMain.dependencies {
             implementation(libs.appdirs)
             implementation(compose.desktop.currentOs)
+            implementation(libs.compose.ui.tooling)
             implementation(libs.kotlinx.coroutinesSwing)
         }
     }
@@ -65,6 +79,8 @@ dependencies {
     listOf(
         "kspAndroid",
         "kspJvm",
+        "kspIosArm64",
+        "kspIosSimulatorArm64"
     ).forEach {
         add(it, libs.androidx.room.compiler)
     }

@@ -51,6 +51,6 @@ class CalendarViewModel(
     }
 
     private val eventComparator: Comparator<CalendarEventEntity> = compareBy<CalendarEventEntity> { it.completed }
-        .thenComparing { it.date }
-        .thenComparing { it.text }
+        .thenBy { it.date }
+        .thenBy { it.text }
 }

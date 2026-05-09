@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Instant
 
@@ -88,7 +87,7 @@ fun AddCalendarEventScreen(
                 state = nameState,
             )
             onNameChange(nameState.text.toString())
-            val datePickerState = rememberDatePickerState(state.date.toJavaLocalDate())
+            val datePickerState = rememberDatePickerState()
             onDateChange(datePickerState.localDate())
             DatePicker(
                 state = datePickerState,
