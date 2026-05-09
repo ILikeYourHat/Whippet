@@ -61,7 +61,6 @@ fun App(
     MaterialTheme {
         Column(
             modifier = modifier.fillMaxSize()
-                .safeContentPadding()
         ) {
             NavHost(
                 navController = navController,

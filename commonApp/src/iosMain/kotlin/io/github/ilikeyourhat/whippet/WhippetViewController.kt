@@ -5,7 +5,7 @@ import dev.zacsweers.metro.createGraph
 import io.github.ilikeyourhat.whippet.di.IosAppGraph
 import platform.UIKit.UIViewController
 
-fun WhippetViewController(): UIViewController {
+fun create(): UIViewController {
     val appGraph = createGraph<IosAppGraph>()
     return ComposeUIViewController {
         App(appGraph)

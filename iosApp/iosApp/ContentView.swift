@@ -4,7 +4,7 @@ import CommonApp
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        WhippetViewControllerKt.WhippetViewController()
+        WhippetViewControllerKt.create()
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
@@ -13,9 +13,7 @@ struct ComposeView: UIViewControllerRepresentable {
 struct ContentView: View {
     var body: some View {
         ComposeView()
-            .ignoresSafeArea()
+            .ignoresSafeArea(edges: .all)
+            .ignoresSafeArea(.keyboard)
     }
 }
-
-
-
