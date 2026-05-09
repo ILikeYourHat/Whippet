@@ -23,7 +23,7 @@ fun NoteListScreen(
     Box(modifier.fillMaxSize()) {
         FloatingActionButton(
             onClick = {
-                navController.navigate(Screen.NotesAdd.route)
+                navController.navigate(Screen.NotesAdd.route())
             },
             modifier = Modifier
                 .align(Alignment.BottomEnd)

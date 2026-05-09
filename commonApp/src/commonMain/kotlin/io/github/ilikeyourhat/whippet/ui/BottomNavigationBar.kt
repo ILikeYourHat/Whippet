@@ -22,7 +22,7 @@ fun BottomNavigationBar(
         Screen.Notes,
         Screen.Settings
     )
-    val isCurrentScreen: (Screen) -> Boolean = { it.route == currentRoute }
+    val isCurrentScreen: (Screen) -> Boolean = { it.route() == currentRoute }
 
     NavigationBar(
         modifier = modifier.fillMaxWidth()
@@ -34,16 +34,16 @@ fun BottomNavigationBar(
                 icon = {
                     Icon(
                         imageVector = if (isCurrentScreen(navigationItem)) {
-                            navigationItem.selectedIcon
+                            navigationItem.selectedIcon()
                         } else {
-                            navigationItem.unSelectedIcon
+                            navigationItem.unselectedIcon()
                         },
                         contentDescription = null,
                     )
                 },
                 label = {
                     Text(
-                        text = navigationItem.route,
+                        text = navigationItem.route(),
                         style = if (isCurrentScreen(navigationItem)) {
                             MaterialTheme.typography.labelLarge
                         } else {

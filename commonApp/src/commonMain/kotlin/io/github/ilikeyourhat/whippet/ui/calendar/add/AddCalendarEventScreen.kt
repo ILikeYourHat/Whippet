@@ -24,6 +24,7 @@ import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.time.Instant
 
 @Composable
@@ -87,7 +88,7 @@ fun AddCalendarEventScreen(
                 state = nameState,
             )
             onNameChange(nameState.text.toString())
-            val datePickerState = rememberDatePickerState()
+            val datePickerState = rememberDatePickerState(today())
             onDateChange(datePickerState.localDate())
             DatePicker(
                 state = datePickerState,
@@ -100,4 +101,9 @@ private fun DatePickerState.localDate(): LocalDate {
     return Instant.fromEpochMilliseconds(selectedDateMillis!!)
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .date
+}
+
+private fun today(): Long {
+    return Clock.System.now()
+        .toEpochMilliseconds()
 }

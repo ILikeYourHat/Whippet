@@ -13,49 +13,48 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Screen(
-    val route: String
-) {
+sealed class Screen {
+    abstract fun route(): String
 
-    data object Home : BottomNavigationScreen(
-        route = "home",
-        selectedIcon = Icons.Filled.Home,
-        unSelectedIcon = Icons.Outlined.Home
-    )
+    data object Home : Screen(), BottomNavigationScreen {
+        override fun route() = "home"
+        override fun selectedIcon() = Icons.Filled.Home
+        override fun unselectedIcon() = Icons.Outlined.Home
+    }
 
-    data object Stats : BottomNavigationScreen(
-        route = "stats",
-        selectedIcon = Icons.Filled.PieChart,
-        unSelectedIcon = Icons.Outlined.PieChart
-    )
+    data object Stats : Screen(), BottomNavigationScreen {
+        override fun route() = "stats"
+        override fun selectedIcon() = Icons.Filled.PieChart
+        override fun unselectedIcon() = Icons.Outlined.PieChart
+    }
 
-    data object Notes : BottomNavigationScreen(
-        route = "notes",
-        selectedIcon = Icons.AutoMirrored.Filled.Note,
-        unSelectedIcon = Icons.AutoMirrored.Outlined.Note
-    )
+    data object Notes : Screen(), BottomNavigationScreen {
+        override fun route() = "notes"
+        override fun selectedIcon() = Icons.AutoMirrored.Filled.Note
+        override fun unselectedIcon() = Icons.AutoMirrored.Outlined.Note
+    }
 
-    data object NotesAdd : Screen(
-        route = "notesAdd"
-    )
+    data object NotesAdd : Screen() {
+        override fun route() = "addNote"
+    }
 
     @Serializable
     data class AddCalendarEvent(
         val id: Long? = null
-    ) : Screen(
-        route = "addCalendarEvent"
-    )
+    ) : Screen() {
+        override fun route() = "addCalendarEvent"
+    }
 
-    data object Settings : BottomNavigationScreen(
-        route = "settings",
-        selectedIcon = Icons.Filled.Settings,
-        unSelectedIcon = Icons.Outlined.Settings
-    )
+
+    data object Settings : Screen(), BottomNavigationScreen {
+        override fun route() = "settings"
+        override fun selectedIcon() = Icons.Filled.Settings
+        override fun unselectedIcon() = Icons.Outlined.Settings
+    }
 }
 
 
-sealed class BottomNavigationScreen(
-    route: String,
-    val selectedIcon: ImageVector,
-    val unSelectedIcon: ImageVector
-) : Screen(route)
+interface BottomNavigationScreen{
+    fun selectedIcon(): ImageVector
+    fun unselectedIcon(): ImageVector
+}

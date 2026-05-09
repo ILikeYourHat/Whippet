@@ -51,13 +51,13 @@ fun App(
     LaunchedEffect("NavigationEvents") {
         navigator.route.collect { event ->
             when (event) {
-                is NavigatorEvent.Destination -> navController.navigate(event.screen.route)
+                is NavigatorEvent.Destination -> navController.navigate(event.screen.route())
                 is NavigatorEvent.BackInvocation -> navController.popBackStack()
             }
         }
     }
 
-    val currentRoute = backStackEntry?.destination?.route ?: Screen.Home.route
+    val currentRoute = backStackEntry?.destination?.route ?: Screen.Home.route()
     MaterialTheme {
         Column(
             modifier = modifier.fillMaxSize()
@@ -65,35 +65,35 @@ fun App(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Screen.Home.route,
+                startDestination = Screen.Home.route(),
                 modifier = Modifier
                     .weight(1f)
             ) {
-                composable(route = Screen.Home.route) {
+                composable(route = Screen.Home.route()) {
                     CalendarScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable(route = Screen.Stats.route) {
+                composable(route = Screen.Stats.route()) {
                     Text("hello2")
                 }
-                composable(route = Screen.Notes.route) {
+                composable(route = Screen.Notes.route()) {
                     NoteListScreen(
                         navController = navController,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable(route = Screen.Settings.route) {
+                composable(route = Screen.Settings.route()) {
                     Text("hello4")
                 }
-                composable(route = Screen.NotesAdd.route) {
+                composable(route = Screen.NotesAdd.route()) {
                     NoteAddScreen(
                         navController = navController,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
                 composable(
-                    route = Screen.AddCalendarEvent().route,
+                    route = Screen.AddCalendarEvent().route(),
                 ) { entry ->
                     val route = entry.toRoute<Screen.AddCalendarEvent>()
                     AddCalendarEventScreen(route.id, modifier)
@@ -102,7 +102,7 @@ fun App(
             BottomNavigationBar(
                 currentRoute = currentRoute,
                 onItemClick = { navigationItem ->
-                    navController.navigate(navigationItem.route) {
+                    navController.navigate(navigationItem.route()) {
                         launchSingleTop = true
                         restoreState = true
                         popUpTo(navController.graph.startDestinationId) {
