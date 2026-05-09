@@ -8,13 +8,13 @@ android {
     namespace = "io.github.ilikeyourhat.whippet.app"
 
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "io.github.ilikeyourhat.whippet"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 

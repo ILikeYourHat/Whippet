@@ -24,7 +24,7 @@ class AddCalendarEventViewModel(
 ) : ViewModel() {
 
     @AssistedFactory
-    @ManualViewModelAssistedFactoryKey(Factory::class)
+    @ManualViewModelAssistedFactoryKey
     @ContributesIntoMap(AppScope::class)
     interface Factory : ManualViewModelAssistedFactory {
         fun create(eventId: Long?): AddCalendarEventViewModel

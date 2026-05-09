@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @Inject
 @ContributesIntoMap(AppScope::class)
-@ViewModelKey(CalendarViewModel::class)
+@ViewModelKey
 class CalendarViewModel(
     val calendarDao: CalendarDao,
     val navigator: Navigator
