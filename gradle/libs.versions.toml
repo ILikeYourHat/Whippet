@@ -8,7 +8,7 @@ androidx-espresso = "3.7.0"
 androidx-lifecycle = "2.10.0"
 androidx-testExt = "1.3.0"
 androidx-navigation = "2.9.2"
-androidx-room = "2.8.4"
+androidx-room = "3.0.0-alpha04"
 androidx-sqlite = "2.6.2"
 appdirs = "1.5.0"
 
@@ -37,8 +37,8 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-lifecycle-viewmodelCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { module = "androidx.room3:room3-runtime", version.ref = "androidx-room" }
+androidx-room-compiler = { module = "androidx.room3:room3-compiler", version.ref = "androidx-room" }
 androidx-sqlite = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
 
@@ -64,7 +64,7 @@ metrox-viewmodel-compose = { module = "dev.zacsweers.metro:metrox-viewmodel-comp
 
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidKmpLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
+androidx-room = { id = "androidx.room3", version.ref = "androidx-room" }
 
 caupain = { id = "com.deezer.caupain", version.ref = "caupain" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-kmp" }

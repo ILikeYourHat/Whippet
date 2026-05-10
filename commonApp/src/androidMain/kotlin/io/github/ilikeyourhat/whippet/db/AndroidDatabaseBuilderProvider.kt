@@ -1,8 +1,8 @@
 package io.github.ilikeyourhat.whippet.db
 
 import android.content.Context
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
 import dev.zacsweers.metro.Inject
 
 @Inject

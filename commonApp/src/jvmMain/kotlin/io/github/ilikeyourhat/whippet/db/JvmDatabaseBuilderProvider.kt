@@ -1,7 +1,7 @@
 package io.github.ilikeyourhat.whippet.db
 
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
 import dev.zacsweers.metro.Inject
 import net.harawata.appdirs.AppDirsFactory
 import java.io.File

@@ -1,6 +1,6 @@
 package io.github.ilikeyourhat.whippet.db.converter
 
-import androidx.room.TypeConverter
+import androidx.room3.TypeConverter
 import kotlinx.datetime.LocalDate
 
 class DateTimeConverters {

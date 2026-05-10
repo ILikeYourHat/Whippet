@@ -1,10 +1,10 @@
 package io.github.ilikeyourhat.whippet.db
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import androidx.room.ConstructedBy
-import androidx.room.RoomDatabaseConstructor
+import androidx.room3.Database
+import androidx.room3.RoomDatabase
+import androidx.room3.TypeConverters
+import androidx.room3.ConstructedBy
+import androidx.room3.RoomDatabaseConstructor
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarEventEntity
 import io.github.ilikeyourhat.whippet.db.converter.DateTimeConverters
