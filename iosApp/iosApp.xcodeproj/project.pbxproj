@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8F1C54B347E2B70663978554 /* Exceptions for "iosApp" folder in "iosApp" target */ = {
+		8F1C54B347E2B70663978554 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		1AF7666D009884A27ADAA131 /* iosApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				8F1C54B347E2B70663978554 /* Exceptions for "iosApp" folder in "iosApp" target */,
+				8F1C54B347E2B70663978554 /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -71,6 +71,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4084B3551C76712FF63A13B /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
+				BF8C71347AC6DBAF813A38F0 /* Compile Kotlin */,
 				A5712A1105956CB9F7D7D272 /* Compile Kotlin Framework */,
 				D368D88C2FAF4CC300AB19BB /* ShellScript */,
 				8EA14C7C5E2E83AC79817E98 /* Sources */,
@@ -154,6 +155,16 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :composeApp:embedAndSignAppleFrameworkForXcode\n";
+		};
+		BF8C71347AC6DBAF813A38F0 /* Compile Kotlin */ = {
+			isa = PBXShellScriptBuildPhase;
+			inputPaths = (
+			);
+			name = "Compile Kotlin";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :iosAppBridge:embedAndSignAppleFrameworkForXcode";
 		};
 		D368D88C2FAF4CC300AB19BB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

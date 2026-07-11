@@ -34,4 +34,6 @@ plugins {
 }
 
 include(":androidApp")
-include(":commonApp")
+include(":desktopApp")
+include(":iosAppBridge")
+include(":shared")

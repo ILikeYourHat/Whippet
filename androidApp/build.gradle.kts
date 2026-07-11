@@ -2,6 +2,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -44,12 +47,17 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":commonApp"))
-
+    implementation(project(":shared"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.metrox.viewmodel.compose)
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.testExt.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
