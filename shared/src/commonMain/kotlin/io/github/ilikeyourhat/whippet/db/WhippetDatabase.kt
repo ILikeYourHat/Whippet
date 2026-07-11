@@ -1,8 +1,8 @@
 package io.github.ilikeyourhat.whippet.db
 
+import androidx.room3.ColumnTypeConverters
 import androidx.room3.Database
 import androidx.room3.RoomDatabase
-import androidx.room3.TypeConverters
 import androidx.room3.ConstructedBy
 import androidx.room3.RoomDatabaseConstructor
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
@@ -18,7 +18,7 @@ import io.github.ilikeyourhat.whippet.db.notes.NotesDao
     ],
     version = 4
 )
-@TypeConverters(
+@ColumnTypeConverters(
     DateTimeConverters::class
 )
 @ConstructedBy(WhippetDatabaseConstructor::class)
