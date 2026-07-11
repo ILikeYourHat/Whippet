@@ -28,8 +28,11 @@ sealed class Screen {
         override fun unselectedIcon() = Icons.Outlined.PieChart
     }
 
-    data object Notes : Screen(), BottomNavigationScreen {
-        override fun route() = "notes"
+    @Serializable
+    data class NotesList(
+        val groupId: Long? = null
+    ) : Screen(), BottomNavigationScreen {
+        override fun route() = "noteList"
         override fun selectedIcon() = Icons.AutoMirrored.Filled.Note
         override fun unselectedIcon() = Icons.AutoMirrored.Outlined.Note
     }

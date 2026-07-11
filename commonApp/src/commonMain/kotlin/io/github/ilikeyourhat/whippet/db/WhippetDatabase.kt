@@ -8,12 +8,15 @@ import androidx.room3.RoomDatabaseConstructor
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarEventEntity
 import io.github.ilikeyourhat.whippet.db.converter.DateTimeConverters
+import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
+import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 
 @Database(
     entities = [
-        CalendarEventEntity::class
+        CalendarEventEntity::class,
+        NoteEntity::class,
     ],
-    version = 3
+    version = 4
 )
 @TypeConverters(
     DateTimeConverters::class
@@ -22,12 +25,13 @@ import io.github.ilikeyourhat.whippet.db.converter.DateTimeConverters
 abstract class WhippetDatabase : RoomDatabase() {
     abstract fun getCalendarDao(): CalendarDao
 
+    abstract fun getNotesDao(): NotesDao
+
     companion object {
         const val DATABASE_FILE = "whippet.db"
     }
 }
 
-@Suppress("KotlinNoActualForExpect")
 expect object WhippetDatabaseConstructor : RoomDatabaseConstructor<WhippetDatabase> {
     override fun initialize(): WhippetDatabase
 }

@@ -2,7 +2,6 @@ package io.github.ilikeyourhat.whippet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,11 +20,11 @@ import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
 import io.github.ilikeyourhat.whippet.ui.NoteAddScreen
-import io.github.ilikeyourhat.whippet.ui.NoteListScreen
 import io.github.ilikeyourhat.whippet.ui.Screen
 import io.github.ilikeyourhat.whippet.ui.calendar.CalendarScreen
 import io.github.ilikeyourhat.whippet.ui.calendar.add.AddCalendarEventScreen
 import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
+import io.github.ilikeyourhat.whippet.ui.notes.list.NotesListScreen
 
 @Composable
 fun App(
@@ -76,9 +75,8 @@ fun App(
                 composable(route = Screen.Stats.route()) {
                     Text("hello2")
                 }
-                composable(route = Screen.Notes.route()) {
-                    NoteListScreen(
-                        navController = navController,
+                composable(route = Screen.NotesList().route()) {
+                    NotesListScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 }

@@ -7,6 +7,7 @@ import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import io.github.ilikeyourhat.whippet.db.WhippetDatabase
 import io.github.ilikeyourhat.whippet.db.WhippetDatabaseFactory
 import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
+import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 
 interface AppGraph : ViewModelGraph {
@@ -20,7 +21,12 @@ interface AppGraph : ViewModelGraph {
     }
 
     @Provides
-    private fun provideHappinessDao(database: WhippetDatabase): CalendarDao {
+    private fun provideCalendarDao(database: WhippetDatabase): CalendarDao {
         return database.getCalendarDao()
+    }
+
+    @Provides
+    private fun provideNotesDao(database: WhippetDatabase): NotesDao {
+        return database.getNotesDao()
     }
 }
