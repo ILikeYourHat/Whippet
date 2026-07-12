@@ -21,4 +21,8 @@ class Navigator {
     suspend fun goBack() {
         _route.emit(NavigatorEvent.BackInvocation)
     }
+
+    suspend fun openLink(link: String) {
+        _route.emit(NavigatorEvent.OpenLink(link))
+    }
 }

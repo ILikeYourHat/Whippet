@@ -3,12 +3,12 @@ package io.github.ilikeyourhat.whippet
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +23,7 @@ import io.github.ilikeyourhat.whippet.ui.group.edit.GroupEditScreen
 import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
 import io.github.ilikeyourhat.whippet.ui.notes.edit.NoteEditScreen
 import io.github.ilikeyourhat.whippet.ui.notes.list.NotesListScreen
+import io.github.ilikeyourhat.whippet.ui.settings.SettingsScreen
 
 @Composable
 fun App(
@@ -44,12 +45,14 @@ fun App(
 ) {
     val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
+    val uriHandler = LocalUriHandler.current
 
     LaunchedEffect("NavigationEvents") {
         navigator.route.collect { event ->
             when (event) {
                 is NavigatorEvent.Destination -> navController.navigate(event.screen.route())
                 is NavigatorEvent.BackInvocation -> navController.popBackStack()
+                is NavigatorEvent.OpenLink -> uriHandler.openUri(event.link)
             }
         }
     }
@@ -71,7 +74,9 @@ fun App(
                     )
                 }
                 composable(route = Screen.Settings.route()) {
-                    Text("hello4")
+                    SettingsScreen(
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
                 composable(route = Screen.NotesAdd.route()) {
                     NoteEditScreen(
