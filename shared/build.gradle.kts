@@ -63,4 +63,6 @@ dependencies {
     ).forEach {
         add(it, libs.androidx.room.compiler)
     }
+
+    androidRuntimeClasspath(libs.compose.ui.tooling)
 }
