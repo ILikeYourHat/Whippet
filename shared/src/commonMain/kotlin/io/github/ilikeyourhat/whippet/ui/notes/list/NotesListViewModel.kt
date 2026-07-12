@@ -2,12 +2,13 @@ package io.github.ilikeyourhat.whippet.ui.notes.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigation
 import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
+import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.Screen
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
@@ -15,22 +16,34 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlin.uuid.Uuid
 
-@Inject
-@ContributesIntoMap(AppScope::class)
-@ViewModelKey
+@AssistedInject
 class NotesListViewModel(
+    @Assisted val groupId: Uuid?,
     val notesDao: NotesDao,
     val navigator: Navigator
 ) : ViewModel() {
 
-    val uiState = notesDao.getAll(null)
-        .map { notes -> NotesListScreenState.Content(notes) }
+    @AssistedFactory
+    @ManualViewModelAssistedFactoryKey
+    @ContributesIntoMap(AppScope::class)
+    interface Factory : ManualViewModelAssistedFactory {
+        fun create(groupId: Uuid?): NotesListViewModel
+    }
+
+    val uiState = notesDao.getAll(groupId)
+        .map { notes -> NotesListScreenState.Content(groupId == null, notes) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = NotesListScreenState.Loading,
+            initialValue = NotesListScreenState.Loading(groupId == null),
         )
+
+
+    fun onNoteGroupClick(groupId: Uuid) = viewModelScope.launch {
+        navigator.navigateTo(Screen.NotesList(groupId))
+    }
 
     fun onAddNoteClick() = viewModelScope.launch {
         navigator.navigateTo(Screen.NotesAdd)
@@ -38,5 +51,9 @@ class NotesListViewModel(
 
     fun onAddGroupClick() = viewModelScope.launch {
         navigator.navigateTo(Screen.GroupAdd)
+    }
+
+    fun onBackClick() = viewModelScope.launch {
+        navigator.goBack()
     }
 }

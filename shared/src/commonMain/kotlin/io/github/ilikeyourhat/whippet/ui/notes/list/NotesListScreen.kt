@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.StickyNote2
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
@@ -18,6 +19,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonMenu
 import androidx.compose.material3.FloatingActionButtonMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -31,22 +33,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.zacsweers.metrox.viewmodel.metroViewModel
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.ui.common.Note
 import io.github.ilikeyourhat.whippet.ui.common.NoteGroup
+import kotlin.uuid.Uuid
 
 @Composable
 fun NotesListScreen(
+    groupId: Uuid? = null,
     modifier: Modifier = Modifier,
-    viewModel: NotesListViewModel = metroViewModel(),
+    viewModel: NotesListViewModel = assistedMetroViewModel<NotesListViewModel, NotesListViewModel.Factory> {
+        create(groupId)
+    }
 ) {
     val state by viewModel.uiState.collectAsState()
     NotesListScreen(
         state = state,
         modifier = modifier,
+        onNoteGroupClick = viewModel::onNoteGroupClick,
         onAddNoteClick = viewModel::onAddNoteClick,
-        onAddGroupClick = viewModel::onAddGroupClick
+        onAddGroupClick = viewModel::onAddGroupClick,
+        onBackClick = viewModel::onBackClick,
     )
 }
 
@@ -54,8 +62,10 @@ fun NotesListScreen(
 fun NotesListScreen(
     state: NotesListScreenState,
     modifier: Modifier = Modifier,
+    onNoteGroupClick: (Uuid) -> Unit = {},
     onAddNoteClick: () -> Unit = {},
-    onAddGroupClick: () -> Unit = {}
+    onAddGroupClick: () -> Unit = {},
+    onBackClick: () -> Unit = {},
 ) {
     Column {
         TopAppBar(
@@ -63,17 +73,29 @@ fun NotesListScreen(
                 Text("Whippet")
             },
             navigationIcon = {
+                if (state.isRoot) {
                     Icon(
                         imageVector = Icons.Filled.Pets,
                         contentDescription = null,
                         modifier = Modifier.minimumInteractiveComponentSize()
                     )
+                } else {
+                    IconButton(
+                        onClick = onBackClick
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
             }
         )
         Box(modifier.fillMaxSize()) {
             when (state) {
                 is NotesListScreenState.Content -> NotesList(
                     state.notes,
+                    onNoteGroupClick = onNoteGroupClick,
                     Modifier.fillMaxSize()
                         .padding(16.dp)
                 )
@@ -152,6 +174,7 @@ private fun FabSection(
 @Composable
 private fun NotesList(
     notes: List<NoteEntity>,
+    onNoteGroupClick: (Uuid) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -164,7 +187,7 @@ private fun NotesList(
             key = { it.id }
         ) { item ->
             if (item.isGroup) {
-                NoteGroup(item)
+                NoteGroup(item, onNoteGroupClick)
             } else {
                 Note(item)
             }
@@ -177,6 +200,7 @@ private fun NotesList(
 fun NotesListScreen() {
     NotesListScreen(
         state = NotesListScreenState.Content(
+            isRoot = true,
             notes = listOf(
                 NoteEntity(
                     title = "Group",

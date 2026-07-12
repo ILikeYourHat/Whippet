@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
@@ -21,9 +22,12 @@ import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
 import io.github.ilikeyourhat.whippet.ui.Screen
 import io.github.ilikeyourhat.whippet.ui.group.edit.GroupEditScreen
 import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
+import io.github.ilikeyourhat.whippet.ui.navigation.UuidNavType
 import io.github.ilikeyourhat.whippet.ui.notes.edit.NoteEditScreen
 import io.github.ilikeyourhat.whippet.ui.notes.list.NotesListScreen
 import io.github.ilikeyourhat.whippet.ui.settings.SettingsScreen
+import kotlin.reflect.typeOf
+import kotlin.uuid.Uuid
 
 @Composable
 fun App(
@@ -50,7 +54,7 @@ fun App(
     LaunchedEffect("NavigationEvents") {
         navigator.route.collect { event ->
             when (event) {
-                is NavigatorEvent.Destination -> navController.navigate(event.screen.route())
+                is NavigatorEvent.Destination -> navController.navigate(event.screen)
                 is NavigatorEvent.BackInvocation -> navController.popBackStack()
                 is NavigatorEvent.OpenLink -> uriHandler.openUri(event.link)
             }
@@ -64,27 +68,33 @@ fun App(
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Screen.NotesList().route(),
+                startDestination = Screen.NotesList(),
                 modifier = Modifier
                     .weight(1f)
             ) {
-                composable(route = Screen.NotesList().route()) {
+                composable<Screen.NotesList>(
+                    typeMap = mapOf(
+                        typeOf<Uuid?>() to UuidNavType
+                    )
+                ) {
+                    val route = it.toRoute<Screen.NotesList>()
                     NotesListScreen(
+                        groupId = route.groupId,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable(route = Screen.Settings.route()) {
+                composable<Screen.Settings> {
                     SettingsScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable(route = Screen.NotesAdd.route()) {
+                composable<Screen.NotesAdd> {
                     NoteEditScreen(
                         noteId = null,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable(route = Screen.GroupAdd.route()) {
+                composable<Screen.GroupAdd> {
                     GroupEditScreen(
                         groupId = null,
                         modifier = Modifier.fillMaxSize()
