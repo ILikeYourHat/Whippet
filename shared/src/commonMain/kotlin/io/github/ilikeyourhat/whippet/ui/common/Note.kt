@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Note
+import androidx.compose.material.icons.automirrored.filled.StickyNote2
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -41,7 +42,7 @@ fun Note(
         ) {
             Row {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Note,
+                    imageVector = Icons.AutoMirrored.Filled.StickyNote2,
                     contentDescription = null,
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
@@ -54,23 +55,35 @@ fun Note(
                         .padding(start = 8.dp)
                 )
             }
-            Text(
-                text = note.value.orEmpty(),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            if (note.value != null) {
+                Text(
+                    text = note.value,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
     }
 }
 
 @Preview
 @Composable
-fun Note() {
+fun Note_withValue() {
     Note(
         note = NoteEntity(
             title = "Example",
             value = "This is some long text"
+        )
+    )
+}
+
+@Preview
+@Composable
+fun Note_withoutValue() {
+    Note(
+        note = NoteEntity(
+            title = "Example"
         )
     )
 }

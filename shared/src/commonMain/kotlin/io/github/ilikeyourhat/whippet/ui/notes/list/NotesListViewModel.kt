@@ -35,4 +35,8 @@ class NotesListViewModel(
     fun onAddNoteClick() = viewModelScope.launch {
         navigator.navigateTo(Screen.NotesAdd)
     }
+
+    fun onAddGroupClick() = viewModelScope.launch {
+        navigator.navigateTo(Screen.GroupAdd)
+    }
 }

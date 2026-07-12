@@ -19,6 +19,7 @@ import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
 import io.github.ilikeyourhat.whippet.ui.Screen
+import io.github.ilikeyourhat.whippet.ui.group.edit.GroupEditScreen
 import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
 import io.github.ilikeyourhat.whippet.ui.notes.edit.NoteEditScreen
 import io.github.ilikeyourhat.whippet.ui.notes.list.NotesListScreen
@@ -75,6 +76,12 @@ fun App(
                 composable(route = Screen.NotesAdd.route()) {
                     NoteEditScreen(
                         noteId = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                composable(route = Screen.GroupAdd.route()) {
+                    GroupEditScreen(
+                        groupId = null,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.AddToHomeScreen
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -39,7 +40,7 @@ fun NoteGroup(
             modifier = Modifier.padding(16.dp)
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.AddToHomeScreen,
+                imageVector = Icons.Filled.Folder,
                 contentDescription = null,
                 modifier = Modifier
             )
@@ -59,7 +60,7 @@ fun NoteGroup(
 fun NoteGroup() {
     NoteGroup(
         note = NoteEntity(
-            title = "Grupa",
+            title = "Example",
             isGroup = true
         )
     )

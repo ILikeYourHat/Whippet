@@ -29,6 +29,9 @@ sealed class Screen {
         override fun route() = "noteAdd"
     }
 
+    data object GroupAdd : Screen() {
+        override fun route() = "groupAdd"
+    }
 
     data object Settings : Screen(), BottomNavigationScreen {
         override fun route() = "settings"
