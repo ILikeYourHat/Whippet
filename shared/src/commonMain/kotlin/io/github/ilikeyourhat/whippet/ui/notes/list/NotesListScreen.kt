@@ -16,7 +16,6 @@ import androidx.compose.material.icons.automirrored.filled.AddToHomeScreen
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Note
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,7 +60,7 @@ fun NotesListScreen(
     Column {
         TopAppBar(
             title = {
-                Text("Add new calendar event")
+                Text("Whippet!!!")
             },
             navigationIcon = {
                 IconButton(
@@ -111,7 +110,7 @@ private fun NotesList(
     ) {
         items(
             items = notes,
-            key = { it.id!! }
+            key = { it.id }
         ) { item ->
             if (item.isGroup) {
                 NoteGroup(item)

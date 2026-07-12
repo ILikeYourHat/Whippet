@@ -5,25 +5,23 @@ import androidx.room3.Database
 import androidx.room3.RoomDatabase
 import androidx.room3.ConstructedBy
 import androidx.room3.RoomDatabaseConstructor
-import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
-import io.github.ilikeyourhat.whippet.db.calendar.CalendarEventEntity
 import io.github.ilikeyourhat.whippet.db.converter.DateTimeConverters
+import io.github.ilikeyourhat.whippet.db.converter.UuidConverter
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 
 @Database(
     entities = [
-        CalendarEventEntity::class,
         NoteEntity::class,
     ],
-    version = 4
+    version = 1
 )
 @ColumnTypeConverters(
-    DateTimeConverters::class
+    DateTimeConverters::class,
+    UuidConverter::class,
 )
 @ConstructedBy(WhippetDatabaseConstructor::class)
 abstract class WhippetDatabase : RoomDatabase() {
-    abstract fun getCalendarDao(): CalendarDao
 
     abstract fun getNotesDao(): NotesDao
 

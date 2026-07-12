@@ -1,4 +1,4 @@
-package io.github.ilikeyourhat.whippet.ui.calendar.add
+package io.github.ilikeyourhat.whippet.ui.notes.edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -6,41 +6,36 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
-import kotlin.time.Instant
+import kotlin.uuid.Uuid
 
 @Composable
-fun AddCalendarEventScreen(
-    eventId: Long?,
+fun NoteEditScreen(
+    noteId: Uuid?,
     modifier: Modifier = Modifier,
-    viewModel: AddCalendarEventViewModel = assistedMetroViewModel<AddCalendarEventViewModel, AddCalendarEventViewModel.Factory> {
-        create(eventId)
+    viewModel: NoteEditViewModel = assistedMetroViewModel<NoteEditViewModel, NoteEditViewModel.Factory> {
+        create(noteId)
     }
 ) {
     val state by viewModel.uiState.collectAsState()
-    AddCalendarEventScreen(
+    NoteEditScreen(
         state = state,
         modifier = modifier,
-        onNameChange = viewModel::onNameChange,
-        onDateChange = viewModel::onDateChange,
+        onTitleChange = viewModel::onTitleChange,
+        onTextContentChange = viewModel::onTextContentChange,
         onBackClick = viewModel::onBackClick,
         onSaveClick = viewModel::onSaveClick
     )
@@ -48,18 +43,18 @@ fun AddCalendarEventScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddCalendarEventScreen(
-    state: AddCalendarEventScreenState,
+fun NoteEditScreen(
+    state: NoteEditScreenState,
     modifier: Modifier = Modifier,
-    onNameChange: (String) -> Unit = {},
-    onDateChange: (LocalDate) -> Unit = {},
+    onTitleChange: (String) -> Unit = {},
+    onTextContentChange: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
     onSaveClick: () -> Unit = {}
 ) {
     Column(modifier = modifier) {
         TopAppBar(
             title = {
-                Text("Add new calendar event")
+                Text("Add new note")
             },
             navigationIcon = {
                 IconButton(
@@ -83,27 +78,22 @@ fun AddCalendarEventScreen(
             }
         )
         Column(modifier = Modifier.padding(16.dp)) {
-            val nameState = rememberTextFieldState(initialText = state.name)
+            val titleState = rememberTextFieldState(initialText = state.title)
             TextField(
-                state = nameState,
+                state = titleState,
             )
-            onNameChange(nameState.text.toString())
-            val datePickerState = rememberDatePickerState(today())
-            onDateChange(datePickerState.localDate())
-            DatePicker(
-                state = datePickerState,
+            LaunchedEffect(titleState) {
+                snapshotFlow { titleState.text.toString() }
+                    .collect(onTitleChange)
+            }
+            val textContentState = rememberTextFieldState(initialText = state.textContent)
+            TextField(
+                state = textContentState,
             )
+            LaunchedEffect(textContentState) {
+                snapshotFlow { textContentState.text.toString() }
+                    .collect(onTextContentChange)
+            }
         }
     }
-}
-
-private fun DatePickerState.localDate(): LocalDate {
-    return Instant.fromEpochMilliseconds(selectedDateMillis!!)
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .date
-}
-
-private fun today(): Long {
-    return Clock.System.now()
-        .toEpochMilliseconds()
 }

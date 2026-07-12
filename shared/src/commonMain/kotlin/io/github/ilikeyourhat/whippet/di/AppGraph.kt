@@ -6,7 +6,6 @@ import dev.zacsweers.metro.SingleIn
 import dev.zacsweers.metrox.viewmodel.ViewModelGraph
 import io.github.ilikeyourhat.whippet.db.WhippetDatabase
 import io.github.ilikeyourhat.whippet.db.WhippetDatabaseFactory
-import io.github.ilikeyourhat.whippet.db.calendar.CalendarDao
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 
@@ -18,11 +17,6 @@ interface AppGraph : ViewModelGraph {
     @SingleIn(AppScope::class)
     private fun provideAppDatabase(factory: WhippetDatabaseFactory): WhippetDatabase {
         return factory.create()
-    }
-
-    @Provides
-    private fun provideCalendarDao(database: WhippetDatabase): CalendarDao {
-        return database.getCalendarDao()
     }
 
     @Provides

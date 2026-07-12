@@ -16,18 +16,6 @@ import kotlinx.serialization.Serializable
 sealed class Screen {
     abstract fun route(): String
 
-    data object Home : Screen(), BottomNavigationScreen {
-        override fun route() = "home"
-        override fun selectedIcon() = Icons.Filled.Home
-        override fun unselectedIcon() = Icons.Outlined.Home
-    }
-
-    data object Stats : Screen(), BottomNavigationScreen {
-        override fun route() = "stats"
-        override fun selectedIcon() = Icons.Filled.PieChart
-        override fun unselectedIcon() = Icons.Outlined.PieChart
-    }
-
     @Serializable
     data class NotesList(
         val groupId: Long? = null
@@ -38,14 +26,7 @@ sealed class Screen {
     }
 
     data object NotesAdd : Screen() {
-        override fun route() = "addNote"
-    }
-
-    @Serializable
-    data class AddCalendarEvent(
-        val id: Long? = null
-    ) : Screen() {
-        override fun route() = "addCalendarEvent"
+        override fun route() = "noteAdd"
     }
 
 

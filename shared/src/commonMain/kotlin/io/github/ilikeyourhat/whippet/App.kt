@@ -14,16 +14,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
-import io.github.ilikeyourhat.whippet.ui.NoteAddScreen
 import io.github.ilikeyourhat.whippet.ui.Screen
-import io.github.ilikeyourhat.whippet.ui.calendar.CalendarScreen
-import io.github.ilikeyourhat.whippet.ui.calendar.add.AddCalendarEventScreen
 import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
+import io.github.ilikeyourhat.whippet.ui.notes.edit.NoteEditScreen
 import io.github.ilikeyourhat.whippet.ui.notes.list.NotesListScreen
 
 @Composable
@@ -56,25 +53,17 @@ fun App(
         }
     }
 
-    val currentRoute = backStackEntry?.destination?.route ?: Screen.Home.route()
+    val currentRoute = backStackEntry?.destination?.route ?: Screen.NotesList().route()
     MaterialTheme {
         Column(
             modifier = modifier.fillMaxSize()
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Screen.Home.route(),
+                startDestination = Screen.NotesList().route(),
                 modifier = Modifier
                     .weight(1f)
             ) {
-                composable(route = Screen.Home.route()) {
-                    CalendarScreen(
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-                composable(route = Screen.Stats.route()) {
-                    Text("hello2")
-                }
                 composable(route = Screen.NotesList().route()) {
                     NotesListScreen(
                         modifier = Modifier.fillMaxSize()
@@ -84,16 +73,10 @@ fun App(
                     Text("hello4")
                 }
                 composable(route = Screen.NotesAdd.route()) {
-                    NoteAddScreen(
-                        navController = navController,
+                    NoteEditScreen(
+                        noteId = null,
                         modifier = Modifier.fillMaxSize()
                     )
-                }
-                composable(
-                    route = Screen.AddCalendarEvent().route(),
-                ) { entry ->
-                    val route = entry.toRoute<Screen.AddCalendarEvent>()
-                    AddCalendarEventScreen(route.id, modifier)
                 }
             }
             BottomNavigationBar(

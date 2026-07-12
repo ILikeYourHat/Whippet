@@ -15,6 +15,7 @@ class WhippetDatabaseFactory(
             .fallbackToDestructiveMigration(dropAllTables = true)
             .setDriver(BundledSQLiteDriver())
             .setQueryCoroutineContext(Dispatchers.IO)
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
     }
 }

@@ -2,6 +2,7 @@ package io.github.ilikeyourhat.whippet.ui.notes.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
@@ -31,21 +32,7 @@ class NotesListViewModel(
             initialValue = NotesListScreenState.Loading,
         )
 
-    fun onAddNoteClick() {
-        viewModelScope.launch {
-            notesDao.insertOrReplace(
-                NoteEntity(
-                    title = "Grupa testowa",
-                    isGroup = true
-                )
-            )
-            notesDao.insertOrReplace(
-                NoteEntity(
-                    title = "Notatka testowa",
-                    value = "Treść notatki testowej",
-                    isGroup = false
-                )
-            )
-        }
+    fun onAddNoteClick() = viewModelScope.launch {
+        navigator.navigateTo(Screen.NotesAdd)
     }
 }
