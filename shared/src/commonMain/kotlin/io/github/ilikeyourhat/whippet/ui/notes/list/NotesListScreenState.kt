@@ -11,7 +11,9 @@ sealed class NotesListScreenState {
     ) : NotesListScreenState()
 
     data class Content(
-        override val isRoot: Boolean,
+        val group: NoteEntity?,
         val notes: List<NoteEntity>
-    ) : NotesListScreenState()
+    ) : NotesListScreenState() {
+        override val isRoot = group == null
+    }
 }

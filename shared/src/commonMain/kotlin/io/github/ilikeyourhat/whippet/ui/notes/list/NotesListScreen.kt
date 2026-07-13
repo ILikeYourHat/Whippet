@@ -70,7 +70,11 @@ fun NotesListScreen(
     Column {
         TopAppBar(
             title = {
-                Text("Whippet")
+                if (state is NotesListScreenState.Content) {
+                    Text(state.group?.title ?: "Whippet")
+                } else {
+                    Text("Loading...")
+                }
             },
             navigationIcon = {
                 if (state.isRoot) {
@@ -200,7 +204,7 @@ private fun NotesList(
 fun NotesListScreen() {
     NotesListScreen(
         state = NotesListScreenState.Content(
-            isRoot = true,
+            group = null,
             notes = listOf(
                 NoteEntity(
                     title = "Group",

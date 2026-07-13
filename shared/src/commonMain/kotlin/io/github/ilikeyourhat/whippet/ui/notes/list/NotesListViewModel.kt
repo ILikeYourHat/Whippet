@@ -13,7 +13,8 @@ import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.Screen
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
@@ -32,8 +33,10 @@ class NotesListViewModel(
         fun create(groupId: Uuid?): NotesListViewModel
     }
 
-    val uiState = notesDao.getAll(groupId)
-        .map { notes -> NotesListScreenState.Content(groupId == null, notes) }
+    val uiState = flow { emit(groupId?.let { notesDao.getById(it) }) }
+        .combine(notesDao.getAll(groupId)) { group, notes ->
+            NotesListScreenState.Content(group, notes)
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

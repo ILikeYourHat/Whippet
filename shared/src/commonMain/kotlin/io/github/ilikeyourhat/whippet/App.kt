@@ -9,6 +9,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -60,8 +62,6 @@ fun App(
             }
         }
     }
-
-    val currentRoute = backStackEntry?.destination?.route ?: Screen.NotesList().route()
     MaterialTheme {
         Column(
             modifier = modifier.fillMaxSize()
@@ -101,10 +101,11 @@ fun App(
                     )
                 }
             }
+
             BottomNavigationBar(
-                currentRoute = currentRoute,
+                currentRoute = backStackEntry?.destination,
                 onItemClick = { navigationItem ->
-                    navController.navigate(navigationItem.route()) {
+                    navController.navigate(navigationItem) {
                         launchSingleTop = true
                         restoreState = true
                         popUpTo(navController.graph.startDestinationId) {

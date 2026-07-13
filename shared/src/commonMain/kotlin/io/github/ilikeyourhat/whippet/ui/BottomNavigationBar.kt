@@ -9,18 +9,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 
 @Composable
 fun BottomNavigationBar(
-    currentRoute: String,
+    currentRoute: NavDestination?,
     onItemClick: (Screen) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val items = listOf(
-        Screen.NotesList(),
-        Screen.Settings
-    )
-    val isCurrentScreen: (Screen) -> Boolean = { it.route() == currentRoute }
+    val items = BottomNavigationScreen.entries
+
+    val currentBottomNavScreen = when {
+        currentRoute?.hasRoute<Screen.NotesList>() == true -> BottomNavigationScreen.NOTES_LIST
+        currentRoute?.hasRoute<Screen.Settings>() == true -> BottomNavigationScreen.SETTINGS
+        else -> null
+    }
+
+    val isCurrentScreen: (BottomNavigationScreen) -> Boolean = { it == currentBottomNavScreen }
 
     NavigationBar(
         modifier = modifier.fillMaxWidth()
@@ -28,7 +34,7 @@ fun BottomNavigationBar(
         items.forEach { navigationItem ->
             NavigationBarItem(
                 selected = isCurrentScreen(navigationItem),
-                onClick = { onItemClick(navigationItem) },
+                onClick = { onItemClick(navigationItem.screen()) },
                 icon = {
                     Icon(
                         imageVector = if (isCurrentScreen(navigationItem)) {
@@ -41,7 +47,7 @@ fun BottomNavigationBar(
                 },
                 label = {
                     Text(
-                        text = navigationItem.route(),
+                        text = navigationItem.localizedName(),
                         style = if (isCurrentScreen(navigationItem)) {
                             MaterialTheme.typography.labelLarge
                         } else {

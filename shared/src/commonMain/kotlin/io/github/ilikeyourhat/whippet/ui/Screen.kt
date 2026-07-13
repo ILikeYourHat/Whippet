@@ -11,37 +11,37 @@ import kotlin.uuid.Uuid
 
 @Serializable
 sealed class Screen {
-    abstract fun route(): String
-
     @Serializable
     data class NotesList(
         val groupId: Uuid? = null
-    ) : Screen(), BottomNavigationScreen {
-        override fun route() = "noteList"
-        override fun selectedIcon() = Icons.AutoMirrored.Filled.Note
-        override fun unselectedIcon() = Icons.AutoMirrored.Outlined.Note
-    }
+    ) : Screen()
 
     @Serializable
-    data object NotesAdd : Screen() {
-        override fun route() = "noteAdd"
-    }
+    data object NotesAdd : Screen()
 
     @Serializable
-    data object GroupAdd : Screen() {
-        override fun route() = "groupAdd"
-    }
+    data object GroupAdd : Screen()
 
     @Serializable
-    data object Settings : Screen(), BottomNavigationScreen {
-        override fun route() = "settings"
-        override fun selectedIcon() = Icons.Filled.Settings
-        override fun unselectedIcon() = Icons.Outlined.Settings
-    }
+    data object Settings : Screen()
 }
 
+enum class BottomNavigationScreen {
+    NOTES_LIST {
+        override fun localizedName() = "My notes"
+        override fun selectedIcon() = Icons.AutoMirrored.Filled.Note
+        override fun unselectedIcon() = Icons.AutoMirrored.Outlined.Note
+        override fun screen() = Screen.NotesList()
+    },
+    SETTINGS {
+        override fun localizedName() = "Settings"
+        override fun selectedIcon() = Icons.Filled.Settings
+        override fun unselectedIcon() = Icons.Outlined.Settings
+        override fun screen() = Screen.Settings
+    };
 
-interface BottomNavigationScreen{
-    fun selectedIcon(): ImageVector
-    fun unselectedIcon(): ImageVector
+    abstract fun localizedName(): String
+    abstract fun selectedIcon(): ImageVector
+    abstract fun unselectedIcon(): ImageVector
+    abstract fun screen(): Screen
 }
