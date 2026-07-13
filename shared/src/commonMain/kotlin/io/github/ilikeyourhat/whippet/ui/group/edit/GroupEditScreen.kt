@@ -24,9 +24,10 @@ import kotlin.uuid.Uuid
 @Composable
 fun GroupEditScreen(
     groupId: Uuid?,
+    parentGroupId: Uuid?,
     modifier: Modifier = Modifier,
     viewModel: GroupEditViewModel = assistedMetroViewModel<GroupEditViewModel, GroupEditViewModel.Factory> {
-        create(groupId)
+        create(groupId, parentGroupId)
     }
 ) {
     val state by viewModel.uiState.collectAsState()
@@ -50,7 +51,7 @@ fun GroupEditScreen(
     Column(modifier = modifier) {
         TopAppBar(
             title = {
-                Text("Add new note")
+                Text("Add new group")
             },
             navigationIcon = {
                 IconButton(

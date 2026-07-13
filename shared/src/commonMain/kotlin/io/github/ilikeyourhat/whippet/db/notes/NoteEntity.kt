@@ -10,6 +10,6 @@ data class NoteEntity(
     val id: Uuid = Uuid.random(),
     val title: String? = null,
     val isGroup: Boolean = false,
-    val groupId: Long? = null,
+    val groupId: Uuid? = null,
     val value: String? = null
 )

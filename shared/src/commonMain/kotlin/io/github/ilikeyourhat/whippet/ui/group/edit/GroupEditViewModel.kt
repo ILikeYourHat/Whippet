@@ -13,12 +13,15 @@ import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
 @AssistedInject
 class GroupEditViewModel(
     @Assisted val groupId: Uuid?,
+    @Assisted val parentGroupId: Uuid?,
     val notesDao: NotesDao,
     val navigator: Navigator
 ) : ViewModel() {
@@ -27,17 +30,29 @@ class GroupEditViewModel(
     @ManualViewModelAssistedFactoryKey
     @ContributesIntoMap(AppScope::class)
     interface Factory : ManualViewModelAssistedFactory {
-        fun create(groupId: Uuid?): GroupEditViewModel
+        fun create(groupId: Uuid?, parentGroupId: Uuid?): GroupEditViewModel
+    }
+
+    val originalGroup = flow {
+        val note = if (groupId != null) {
+            notesDao.getById(groupId)
+        } else null
+
+        emit(
+            note ?: NoteEntity(
+                id = groupId ?: Uuid.random(),
+                groupId = parentGroupId,
+                isGroup = true
+            )
+        )
     }
 
     init {
         viewModelScope.launch {
-            if (groupId != null) {
-                val event = notesDao.getById(groupId)
-                uiState.value = GroupEditScreenState(
-                    title = event?.title.orEmpty(),
-                )
-            }
+            val group = originalGroup.single()
+            uiState.value = GroupEditScreenState(
+                title = group.title.orEmpty(),
+            )
         }
     }
 
@@ -57,10 +72,8 @@ class GroupEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
-            val entity = NoteEntity(
-                id = groupId ?: Uuid.random(),
-                title = uiState.value.title,
-                isGroup = true
+            val entity = originalGroup.single().copy(
+                title = uiState.value.title
             )
             notesDao.insertOrReplace(entity)
             navigator.goBack()

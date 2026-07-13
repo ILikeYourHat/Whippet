@@ -9,8 +9,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -69,13 +67,16 @@ fun App(
             NavHost(
                 navController = navController,
                 startDestination = Screen.NotesList(),
+                typeMap = mapOf(
+                    typeOf<Uuid?>() to UuidNavType
+                ),
                 modifier = Modifier
                     .weight(1f)
             ) {
                 composable<Screen.NotesList>(
                     typeMap = mapOf(
                         typeOf<Uuid?>() to UuidNavType
-                    )
+                    ),
                 ) {
                     val route = it.toRoute<Screen.NotesList>()
                     NotesListScreen(
@@ -88,15 +89,27 @@ fun App(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable<Screen.NotesAdd> {
+                composable<Screen.NotesAdd>(
+                    typeMap = mapOf(
+                        typeOf<Uuid?>() to UuidNavType
+                    ),
+                ) {
+                    val route = it.toRoute<Screen.NotesAdd>()
                     NoteEditScreen(
-                        noteId = null,
+                        noteId = route.noteId,
+                        parentGroupId = route.parentGroupId,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-                composable<Screen.GroupAdd> {
+                composable<Screen.GroupAdd>(
+                    typeMap = mapOf(
+                        typeOf<Uuid?>() to UuidNavType
+                    ),
+                ) {
+                    val route = it.toRoute<Screen.GroupAdd>()
                     GroupEditScreen(
-                        groupId = null,
+                        groupId = route.groupId,
+                        parentGroupId = route.parentGroupId,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

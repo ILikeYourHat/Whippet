@@ -17,10 +17,16 @@ sealed class Screen {
     ) : Screen()
 
     @Serializable
-    data object NotesAdd : Screen()
+    data class NotesAdd(
+        val noteId: Uuid? = null,
+        val parentGroupId: Uuid? = null
+    ) : Screen()
 
     @Serializable
-    data object GroupAdd : Screen()
+    data class GroupAdd(
+        val groupId: Uuid? = null,
+        val parentGroupId: Uuid? = null
+    ) : Screen()
 
     @Serializable
     data object Settings : Screen()

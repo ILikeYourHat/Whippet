@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Icon
@@ -25,9 +24,10 @@ import kotlin.uuid.Uuid
 @Composable
 fun NoteEditScreen(
     noteId: Uuid?,
+    parentGroupId: Uuid?,
     modifier: Modifier = Modifier,
     viewModel: NoteEditViewModel = assistedMetroViewModel<NoteEditViewModel, NoteEditViewModel.Factory> {
-        create(noteId)
+        create(noteId, parentGroupId)
     }
 ) {
     val state by viewModel.uiState.collectAsState()

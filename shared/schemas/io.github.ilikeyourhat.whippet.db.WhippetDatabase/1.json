@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fc29e3eca5f1cdd6ffda45954c99240b",
+    "identityHash": "4c4b50902ac618376ab7e11b1482332e",
     "entities": [
       {
         "tableName": "notes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` BLOB NOT NULL, `title` TEXT, `isGroup` INTEGER NOT NULL, `groupId` INTEGER, `value` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` BLOB NOT NULL, `title` TEXT, `isGroup` INTEGER NOT NULL, `groupId` BLOB, `value` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -28,7 +28,7 @@
           {
             "fieldPath": "groupId",
             "columnName": "groupId",
-            "affinity": "INTEGER"
+            "affinity": "BLOB"
           },
           {
             "fieldPath": "value",
@@ -46,7 +46,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fc29e3eca5f1cdd6ffda45954c99240b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4c4b50902ac618376ab7e11b1482332e')"
     ]
   }
 }

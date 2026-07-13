@@ -49,11 +49,11 @@ class NotesListViewModel(
     }
 
     fun onAddNoteClick() = viewModelScope.launch {
-        navigator.navigateTo(Screen.NotesAdd)
+        navigator.navigateTo(Screen.NotesAdd(parentGroupId = groupId))
     }
 
     fun onAddGroupClick() = viewModelScope.launch {
-        navigator.navigateTo(Screen.GroupAdd)
+        navigator.navigateTo(Screen.GroupAdd(parentGroupId = groupId))
     }
 
     fun onBackClick() = viewModelScope.launch {
