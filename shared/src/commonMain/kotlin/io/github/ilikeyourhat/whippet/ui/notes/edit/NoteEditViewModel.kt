@@ -14,7 +14,7 @@ import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
@@ -46,19 +46,19 @@ class NoteEditViewModel(
         )
     }
 
+    val uiState = MutableStateFlow(
+        NoteEditScreenState()
+    )
+
     init {
         viewModelScope.launch {
-            val note = originalNote.single()
+            val note = originalNote.last()
             uiState.value = NoteEditScreenState(
                 title = note.title.orEmpty(),
                 textContent = note.value.orEmpty(),
             )
         }
     }
-
-    val uiState = MutableStateFlow(
-        NoteEditScreenState()
-    )
 
     fun onTitleChange(title: String) {
         uiState.value = uiState.value.copy(title = title)
@@ -76,7 +76,7 @@ class NoteEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
-            val entity = originalNote.single().copy(
+            val entity = originalNote.last().copy(
                 title = uiState.value.title,
                 value = uiState.value.textContent
             )

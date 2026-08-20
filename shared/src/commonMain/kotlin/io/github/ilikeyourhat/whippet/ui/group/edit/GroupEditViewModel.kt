@@ -14,7 +14,7 @@ import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
@@ -47,18 +47,18 @@ class GroupEditViewModel(
         )
     }
 
+    val uiState = MutableStateFlow(
+        GroupEditScreenState()
+    )
+
     init {
         viewModelScope.launch {
-            val group = originalGroup.single()
+            val group = originalGroup.last()
             uiState.value = GroupEditScreenState(
                 title = group.title.orEmpty(),
             )
         }
     }
-
-    val uiState = MutableStateFlow(
-        GroupEditScreenState()
-    )
 
     fun onTitleChange(title: String) {
         uiState.value = uiState.value.copy(title = title)
@@ -72,7 +72,7 @@ class GroupEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
-            val entity = originalGroup.single().copy(
+            val entity = originalGroup.last().copy(
                 title = uiState.value.title
             )
             notesDao.insertOrReplace(entity)
