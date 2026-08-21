@@ -34,7 +34,7 @@ class GroupEditViewModel(
     }
 
     val uiState: StateFlow<GroupEditScreenState>
-        field = MutableStateFlow(GroupEditScreenState())
+        field = MutableStateFlow<GroupEditScreenState>(GroupEditScreenState.Loading(groupId == null))
 
     private val originalGroup = viewModelScope.async {
         val note = if (groupId != null) {
@@ -51,14 +51,16 @@ class GroupEditViewModel(
     init {
         viewModelScope.launch {
             val group = originalGroup.await()
-            uiState.value = GroupEditScreenState(
+            uiState.value = GroupEditScreenState.Content(
+                isNew = groupId == null,
                 title = group.title.orEmpty(),
             )
         }
     }
 
     fun onTitleChange(title: String) {
-        uiState.value = uiState.value.copy(title = title)
+        val uiStateValue = uiState.value as? GroupEditScreenState.Content ?: return
+        uiState.value = uiStateValue.copy(title = title)
     }
 
     fun onBackClick() {
@@ -69,8 +71,9 @@ class GroupEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
+            val uiStateValue = uiState.value as? GroupEditScreenState.Content ?: return@launch
             val entity = originalGroup.await().copy(
-                title = uiState.value.title
+                title = uiStateValue.title
             )
             notesDao.insertOrReplace(entity)
             navigator.goBack()

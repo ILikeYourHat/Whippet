@@ -11,6 +11,7 @@ import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.Screen
+import io.github.ilikeyourhat.whippet.ui.common.NoteContract
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +26,7 @@ class NotesListViewModel(
     @Assisted val groupId: Uuid?,
     val notesDao: NotesDao,
     val navigator: Navigator
-) : ViewModel() {
+) : ViewModel(), NoteContract {
 
     @AssistedFactory
     @ManualViewModelAssistedFactoryKey
@@ -44,10 +45,6 @@ class NotesListViewModel(
             initialValue = NotesListScreenState.Loading(groupId == null),
         )
 
-    fun onNoteGroupClick(groupId: Uuid) = viewModelScope.launch {
-        navigator.navigateTo(Screen.NotesList(groupId))
-    }
-
     fun onAddNoteClick() = viewModelScope.launch {
         navigator.navigateTo(Screen.NotesAdd(parentGroupId = groupId))
     }
@@ -58,5 +55,28 @@ class NotesListViewModel(
 
     fun onBackClick() = viewModelScope.launch {
         navigator.goBack()
+    }
+
+    override fun onItemClick(id: Uuid) {
+        viewModelScope.launch {
+            navigator.navigateTo(Screen.NotesList(id))
+        }
+    }
+
+    override fun onItemEdit(id: Uuid) {
+        viewModelScope.launch {
+            val note = notesDao.getById(id)
+            when {
+                note == null -> {}
+                note.isGroup -> navigator.navigateTo(Screen.GroupAdd(id))
+                else -> navigator.navigateTo(Screen.NotesAdd(id))
+            }
+        }
+    }
+
+    override fun onItemDelete(id: Uuid) {
+        viewModelScope.launch {
+            notesDao.delete(id)
+        }
     }
 }

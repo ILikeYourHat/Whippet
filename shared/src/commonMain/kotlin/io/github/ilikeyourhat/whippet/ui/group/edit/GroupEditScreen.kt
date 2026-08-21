@@ -51,7 +51,11 @@ fun GroupEditScreen(
     Column(modifier = modifier) {
         TopAppBar(
             title = {
-                Text("Add new group")
+                if (state.isNew) {
+                    Text("Add new group")
+                } else {
+                    Text("Edit group")
+                }
             },
             navigationIcon = {
                 IconButton(
@@ -74,14 +78,16 @@ fun GroupEditScreen(
                 }
             }
         )
-        Column(modifier = Modifier.padding(16.dp)) {
-            val titleState = rememberTextFieldState(initialText = state.title)
-            TextField(
-                state = titleState,
-            )
-            LaunchedEffect(titleState) {
-                snapshotFlow { titleState.text.toString() }
-                    .collect(onTitleChange)
+        if (state is GroupEditScreenState.Content) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                val titleState = rememberTextFieldState(initialText = state.title)
+                TextField(
+                    state = titleState,
+                )
+                LaunchedEffect(titleState) {
+                    snapshotFlow { titleState.text.toString() }
+                        .collect(onTitleChange)
+                }
             }
         }
     }

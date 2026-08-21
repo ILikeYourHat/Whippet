@@ -34,7 +34,7 @@ class NoteEditViewModel(
     }
 
     val uiState: StateFlow<NoteEditScreenState>
-        field = MutableStateFlow(NoteEditScreenState())
+        field = MutableStateFlow<NoteEditScreenState>(NoteEditScreenState.Loading(noteId == null))
 
     private val originalNote = viewModelScope.async {
         val note = if (noteId != null) {
@@ -50,7 +50,8 @@ class NoteEditViewModel(
     init {
         viewModelScope.launch {
             val note = originalNote.await()
-            uiState.value = NoteEditScreenState(
+            uiState.value = NoteEditScreenState.Content(
+                isNew = noteId == null,
                 title = note.title.orEmpty(),
                 textContent = note.value.orEmpty(),
             )
@@ -58,11 +59,13 @@ class NoteEditViewModel(
     }
 
     fun onTitleChange(title: String) {
-        uiState.value = uiState.value.copy(title = title)
+        val uiStateValue = uiState.value as? NoteEditScreenState.Content ?: return
+        uiState.value = uiStateValue.copy(title = title)
     }
 
     fun onTextContentChange(textContent: String) {
-        uiState.value = uiState.value.copy(textContent = textContent)
+        val uiStateValue = uiState.value as? NoteEditScreenState.Content ?: return
+        uiState.value = uiStateValue.copy(textContent = textContent)
     }
 
     fun onBackClick() {
@@ -73,9 +76,10 @@ class NoteEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
+            val uiStateValue = uiState.value as? NoteEditScreenState.Content ?: return@launch
             val entity = originalNote.await().copy(
-                title = uiState.value.title,
-                value = uiState.value.textContent
+                title = uiStateValue.title,
+                value = uiStateValue.textContent
             )
             notesDao.insertOrReplace(entity)
             navigator.goBack()

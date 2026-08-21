@@ -36,7 +36,9 @@ import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.ui.common.Note
+import io.github.ilikeyourhat.whippet.ui.common.NoteContract
 import io.github.ilikeyourhat.whippet.ui.common.NoteGroup
+import kotlin.contracts.contract
 import kotlin.uuid.Uuid
 
 @Composable
@@ -51,7 +53,7 @@ fun NotesListScreen(
     NotesListScreen(
         state = state,
         modifier = modifier,
-        onNoteGroupClick = viewModel::onNoteGroupClick,
+        contract = viewModel,
         onAddNoteClick = viewModel::onAddNoteClick,
         onAddGroupClick = viewModel::onAddGroupClick,
         onBackClick = viewModel::onBackClick,
@@ -62,7 +64,7 @@ fun NotesListScreen(
 fun NotesListScreen(
     state: NotesListScreenState,
     modifier: Modifier = Modifier,
-    onNoteGroupClick: (Uuid) -> Unit = {},
+    contract: NoteContract = NoteContract.Empty,
     onAddNoteClick: () -> Unit = {},
     onAddGroupClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
@@ -99,7 +101,7 @@ fun NotesListScreen(
             when (state) {
                 is NotesListScreenState.Content -> NotesList(
                     state.notes,
-                    onNoteGroupClick = onNoteGroupClick,
+                    contract = contract,
                     Modifier.fillMaxSize()
                         .padding(16.dp)
                 )
@@ -178,7 +180,7 @@ private fun FabSection(
 @Composable
 private fun NotesList(
     notes: List<NoteEntity>,
-    onNoteGroupClick: (Uuid) -> Unit,
+    contract: NoteContract,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -191,9 +193,9 @@ private fun NotesList(
             key = { it.id }
         ) { item ->
             if (item.isGroup) {
-                NoteGroup(item, onNoteGroupClick)
+                NoteGroup(item, contract)
             } else {
-                Note(item)
+                Note(item, contract)
             }
         }
     }

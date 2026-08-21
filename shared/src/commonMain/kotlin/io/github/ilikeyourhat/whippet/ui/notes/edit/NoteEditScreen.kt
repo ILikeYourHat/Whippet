@@ -53,7 +53,11 @@ fun NoteEditScreen(
     Column(modifier = modifier) {
         TopAppBar(
             title = {
-                Text("Add new note")
+                if (state.isNew) {
+                    Text("Add new note")
+                } else {
+                    Text("Edit note")
+                }
             },
             navigationIcon = {
                 IconButton(
@@ -76,22 +80,24 @@ fun NoteEditScreen(
                 }
             }
         )
-        Column(modifier = Modifier.padding(16.dp)) {
-            val titleState = rememberTextFieldState(initialText = state.title)
-            TextField(
-                state = titleState,
-            )
-            LaunchedEffect(titleState) {
-                snapshotFlow { titleState.text.toString() }
-                    .collect(onTitleChange)
-            }
-            val textContentState = rememberTextFieldState(initialText = state.textContent)
-            TextField(
-                state = textContentState,
-            )
-            LaunchedEffect(textContentState) {
-                snapshotFlow { textContentState.text.toString() }
-                    .collect(onTextContentChange)
+        if (state is NoteEditScreenState.Content) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                val titleState = rememberTextFieldState(initialText = state.title)
+                TextField(
+                    state = titleState,
+                )
+                LaunchedEffect(titleState) {
+                    snapshotFlow { titleState.text.toString() }
+                        .collect(onTitleChange)
+                }
+                val textContentState = rememberTextFieldState(initialText = state.textContent)
+                TextField(
+                    state = textContentState,
+                )
+                LaunchedEffect(textContentState) {
+                    snapshotFlow { textContentState.text.toString() }
+                        .collect(onTextContentChange)
+                }
             }
         }
     }
