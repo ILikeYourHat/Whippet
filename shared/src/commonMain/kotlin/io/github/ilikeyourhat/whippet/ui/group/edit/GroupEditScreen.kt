@@ -1,21 +1,30 @@
 package io.github.ilikeyourhat.whippet.ui.group.edit
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
@@ -67,26 +76,42 @@ fun GroupEditScreen(
                     )
                 }
             },
-            actions = {
-                IconButton(
-                    onClick = onSaveClick
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Save,
-                        contentDescription = null
-                    )
-                }
-            }
         )
         if (state is GroupEditScreenState.Content) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    16.dp,
+                    Alignment.CenterVertically
+                ),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(8.dp)
+            ) {
                 val titleState = rememberTextFieldState(initialText = state.title)
-                TextField(
+                OutlinedTextField(
+                    label = {
+                        Text("Name")
+                    },
+                    lineLimits = TextFieldLineLimits.SingleLine,
                     state = titleState,
+                    modifier = Modifier
+                        .widthIn(max = 420.dp)
+                        .fillMaxWidth()
                 )
                 LaunchedEffect(titleState) {
                     snapshotFlow { titleState.text.toString() }
                         .collect(onTitleChange)
+                }
+                Button(
+                    onClick = onSaveClick
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Save,
+                        contentDescription = null,
+                        modifier = Modifier.padding(end = 4.dp)
+                    )
+                    Text(text = "Save")
                 }
             }
         }
