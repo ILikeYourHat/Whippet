@@ -12,9 +12,9 @@ import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
@@ -33,27 +33,24 @@ class GroupEditViewModel(
         fun create(groupId: Uuid?, parentGroupId: Uuid?): GroupEditViewModel
     }
 
-    val originalGroup = flow {
+    val uiState: StateFlow<GroupEditScreenState>
+        field = MutableStateFlow(GroupEditScreenState())
+
+    private val originalGroup = viewModelScope.async {
         val note = if (groupId != null) {
             notesDao.getById(groupId)
         } else null
 
-        emit(
-            note ?: NoteEntity(
-                id = groupId ?: Uuid.random(),
-                groupId = parentGroupId,
-                isGroup = true
-            )
+        note ?: NoteEntity(
+            id = groupId ?: Uuid.random(),
+            groupId = parentGroupId,
+            isGroup = true
         )
     }
 
-    val uiState = MutableStateFlow(
-        GroupEditScreenState()
-    )
-
     init {
         viewModelScope.launch {
-            val group = originalGroup.last()
+            val group = originalGroup.await()
             uiState.value = GroupEditScreenState(
                 title = group.title.orEmpty(),
             )
@@ -72,7 +69,7 @@ class GroupEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
-            val entity = originalGroup.last().copy(
+            val entity = originalGroup.await().copy(
                 title = uiState.value.title
             )
             notesDao.insertOrReplace(entity)

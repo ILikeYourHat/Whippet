@@ -12,9 +12,9 @@ import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.db.notes.NotesDao
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlin.uuid.Uuid
 
@@ -33,26 +33,23 @@ class NoteEditViewModel(
         fun create(noteId: Uuid?, groupId: Uuid?): NoteEditViewModel
     }
 
-    val originalNote = flow {
+    val uiState: StateFlow<NoteEditScreenState>
+        field = MutableStateFlow(NoteEditScreenState())
+
+    private val originalNote = viewModelScope.async {
         val note = if (noteId != null) {
             notesDao.getById(noteId)
         } else null
 
-        emit(
-            note ?: NoteEntity(
-                id = noteId ?: Uuid.random(),
-                groupId = groupId
-            )
+        note ?: NoteEntity(
+            id = noteId ?: Uuid.random(),
+            groupId = groupId
         )
     }
 
-    val uiState = MutableStateFlow(
-        NoteEditScreenState()
-    )
-
     init {
         viewModelScope.launch {
-            val note = originalNote.last()
+            val note = originalNote.await()
             uiState.value = NoteEditScreenState(
                 title = note.title.orEmpty(),
                 textContent = note.value.orEmpty(),
@@ -76,7 +73,7 @@ class NoteEditViewModel(
 
     fun onSaveClick() {
         viewModelScope.launch {
-            val entity = originalNote.last().copy(
+            val entity = originalNote.await().copy(
                 title = uiState.value.title,
                 value = uiState.value.textContent
             )
