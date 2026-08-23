@@ -1,10 +1,8 @@
-package io.github.ilikeyourhat.io.github.ilikeyourhat.whippet.db
+package io.github.ilikeyourhat.whippet.db
 
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
 import dev.zacsweers.metro.Inject
-import io.github.ilikeyourhat.whippet.db.DatabaseBuilderProvider
-import io.github.ilikeyourhat.whippet.db.WhippetDatabase
 import net.harawata.appdirs.AppDirsFactory
 import java.io.File
 
