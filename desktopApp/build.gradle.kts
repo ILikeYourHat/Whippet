@@ -11,10 +11,15 @@ dependencies {
     implementation(project(":shared"))
     implementation(libs.androidx.room.runtime)
     implementation(libs.appdirs)
+    implementation(libs.compose.components.resources)
     implementation(compose.desktop.currentOs)
     implementation(libs.compose.ui.tooling)
     implementation(libs.kotlinx.coroutinesSwing)
     implementation(libs.metrox.viewmodel.compose)
+}
+
+compose.resources {
+    packageOfResClass = "io.github.ilikeyourhat.whippet"
 }
 
 compose.desktop {
@@ -22,9 +27,19 @@ compose.desktop {
         mainClass = "io.github.ilikeyourhat.whippet.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "io.github.ilikeyourhat.whippet"
+            packageName = "Whippet"
             packageVersion = "1.0.0"
+
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            windows {
+                iconFile.set(project.file("icons/app-icon.ico"))
+            }
+            macOS {
+                iconFile.set(project.file("icons/app-icon.icns"))
+            }
+            linux {
+                iconFile.set(project.file("icons/app-icon.png"))
+            }
         }
     }
 }
