@@ -1,7 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import pl.allegro.tech.build.axion.release.domain.VersionConfig
 
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.axion)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.metro)
@@ -18,8 +20,8 @@ android {
         applicationId = "io.github.ilikeyourhat.whippet"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = scmVersion.versionCode
+        versionName = scmVersion.version
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,3 +63,12 @@ dependencies {
     androidTestImplementation(libs.androidx.testExt.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+private val VersionConfig.versionCode: Int
+    get() {
+        val semVerRegex = """(\d+)\.(\d{1,2})\.(\d{1,2})(\D.*)?""".toRegex()
+        val groups = semVerRegex.matchEntire(version)?.destructured?.toList()
+            ?: throw GradleException("Version must be in SemVer format, but was $this")
+        val (major, minor, patch) = groups.take(3).map { it.toInt() }
+        return major * 10000 + minor * 100 + patch
+    }

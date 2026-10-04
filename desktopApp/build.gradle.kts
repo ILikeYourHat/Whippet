@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
+    alias(libs.plugins.axion)
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
@@ -28,7 +29,7 @@ compose.desktop {
 
         nativeDistributions {
             packageName = "Whippet"
-            packageVersion = "1.0.0"
+            packageVersion = scmVersion.undecoratedVersion
 
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             windows {

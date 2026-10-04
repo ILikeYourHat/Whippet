@@ -11,6 +11,7 @@ androidx-navigation = "2.9.2"
 androidx-room = "3.0.3"
 androidx-sqlite = "2.7.1"
 appdirs = "1.5.0"
+axion = "1.21.2"
 
 caupain = "1.10.1"
 compose-kmp = "1.12.1"
@@ -65,6 +66,7 @@ metrox-viewmodel-compose = { module = "dev.zacsweers.metro:metrox-viewmodel-comp
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidKmpLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 androidx-room = { id = "androidx.room3", version.ref = "androidx-room" }
+axion = { id = "pl.allegro.tech.build.axion-release", version.ref = "axion" }
 
 caupain = { id = "com.deezer.caupain", version.ref = "caupain" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-kmp" }
