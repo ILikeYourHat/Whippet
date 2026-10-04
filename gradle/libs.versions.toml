@@ -1,31 +1,31 @@
 [versions]
 
-agp = "9.3.2"
+agp = "9.4.1"
 androidx-activity = "1.13.0"
 androidx-appcompat = "1.8.0"
-androidx-core = "1.19.0"
+androidx-core = "1.19.1"
 androidx-espresso = "3.7.0"
 androidx-lifecycle = "2.11.0"
 androidx-testExt = "1.3.0"
 androidx-navigation = "2.9.2"
-androidx-room = "3.0.2"
-androidx-sqlite = "2.7.0"
+androidx-room = "3.0.3"
+androidx-sqlite = "2.7.1"
 appdirs = "1.5.0"
 
 caupain = "1.10.1"
-compose-kmp = "1.12.0"
+compose-kmp = "1.12.1"
 
 junit = "4.13.2"
 
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 kotlinx-coroutines = "1.11.0"
 kotlinx-datetime = "0.8.0"
-ksp = "2.3.11"
+ksp = "2.3.12"
 
 material = "1.14.0"
 material3 = "1.12.0-alpha03"
 materialIcons = "1.7.3"
-metro = "1.4.2"
+metro = "1.4.5"
 
 [libraries]
 
