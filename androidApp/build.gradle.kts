@@ -37,8 +37,8 @@ android {
 
     buildTypes {
         release {
-            val configName = if (keystore.exists()) "release" else "debug"
-            signingConfig = signingConfigs.getByName(configName)
+            val signingConfigName = if (keystore.exists()) "release" else "debug"
+            signingConfig = signingConfigs.getByName(signingConfigName)
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
