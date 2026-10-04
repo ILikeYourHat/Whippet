@@ -8,6 +8,12 @@ plugins {
     alias(libs.plugins.metro)
 }
 
+kotlin {
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+
 dependencies {
     implementation(project(":shared"))
     implementation(libs.androidx.room.runtime)

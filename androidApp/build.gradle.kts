@@ -28,19 +28,17 @@ android {
 
     signingConfigs {
         create("release") {
-            val keystoreFile = rootProject.file("keystore/keystore.jks")
-            if (keystoreFile.exists()) {
-                storeFile = keystoreFile
-                storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("ANDROID_KEY_ALIAS")
-                keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
-            }
+            storeFile = keystore
+            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            val configName = if (keystore.exists()) "release" else "debug"
+            signingConfig = signingConfigs.getByName(configName)
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -64,6 +62,7 @@ android {
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.JVM_11
+        allWarningsAsErrors = true
     }
 }
 
@@ -91,3 +90,6 @@ private val VersionConfig.versionCode: Int
         val (major, minor, patch) = groups.take(3).map { it.toInt() }
         return major * 10000 + minor * 100 + patch
     }
+
+private val Project.keystore: File
+    get() = rootProject.file("keystore/keystore.jks")

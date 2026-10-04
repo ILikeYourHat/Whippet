@@ -25,7 +25,10 @@ kotlin {
     iosSimulatorArm64()
     jvm()
 
-    compilerOptions.freeCompilerArgs.add("-Xexpect-actual-classes")
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+        allWarningsAsErrors = true
+    }
 
     sourceSets {
         commonMain.dependencies {
