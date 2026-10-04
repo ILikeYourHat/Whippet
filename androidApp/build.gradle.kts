@@ -34,8 +34,6 @@ android {
                 storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
                 keyAlias = System.getenv("ANDROID_KEY_ALIAS")
                 keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
-            } else {
-                println("⚠️ Keystore file not found in $keystoreFile, skipping signing")
             }
         }
     }
@@ -55,6 +53,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    lint {
+        warningsAsErrors = true
+        lintConfig = file("$rootDir/lint.xml")
     }
 }
 
