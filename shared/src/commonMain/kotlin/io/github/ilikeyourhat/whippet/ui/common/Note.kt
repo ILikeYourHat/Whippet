@@ -1,6 +1,7 @@
 package io.github.ilikeyourhat.whippet.ui.common
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,11 +19,11 @@ import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
+import io.github.ilikeyourhat.whippet.ui.AppPreview
+import io.github.ilikeyourhat.whippet.ui.WhippetTheme
 import kotlin.uuid.Uuid
 
 @Composable
@@ -71,28 +72,31 @@ fun NoteCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
         ),
-        border = BorderStroke(2.dp, Color.Black),
+        border = BorderStroke(2.dp, WhippetTheme.colors.text),
         modifier = modifier
     ) {
         Column(
             modifier = Modifier
+                .background(color = WhippetTheme.colors.background)
                 .clickable(
                     enabled = clickable,
                     onClick = { contract.onItemClick(id) }
                 )
-                .padding(8.dp)
+                .padding(8.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.Top
             ) {
                 Icon(
                     imageVector = icon,
+                    tint = WhippetTheme.colors.text,
                     contentDescription = null,
                     modifier = Modifier
                         .minimumInteractiveComponentSize()
                 )
                 Text(
                     text = title,
+                    color = WhippetTheme.colors.text,
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .weight(1f)
@@ -109,6 +113,7 @@ fun NoteCard(
             if (value != null) {
                 Text(
                     text = value,
+                    color = WhippetTheme.colors.text,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -119,7 +124,7 @@ fun NoteCard(
     }
 }
 
-@Preview
+@AppPreview
 @Composable
 fun Note_withValue() {
     Note(
@@ -130,7 +135,7 @@ fun Note_withValue() {
     )
 }
 
-@Preview
+@AppPreview
 @Composable
 fun Note_withoutValue() {
     Note(
@@ -140,7 +145,7 @@ fun Note_withoutValue() {
     )
 }
 
-@Preview
+@AppPreview
 @Composable
 fun Note_withLongTitle() {
     Note(
@@ -151,7 +156,7 @@ fun Note_withLongTitle() {
     )
 }
 
-@Preview
+@AppPreview
 @Composable
 fun Note_group() {
     NoteGroup(

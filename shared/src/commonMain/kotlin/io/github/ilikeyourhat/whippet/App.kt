@@ -20,6 +20,7 @@ import io.github.ilikeyourhat.whippet.di.AppGraph
 import io.github.ilikeyourhat.whippet.ui.navigation.Navigator
 import io.github.ilikeyourhat.whippet.ui.BottomNavigationBar
 import io.github.ilikeyourhat.whippet.ui.Screen
+import io.github.ilikeyourhat.whippet.ui.WhippetTheme
 import io.github.ilikeyourhat.whippet.ui.group.edit.GroupEditScreen
 import io.github.ilikeyourhat.whippet.ui.navigation.NavigatorEvent
 import io.github.ilikeyourhat.whippet.ui.navigation.UuidNavType
@@ -35,10 +36,12 @@ fun App(
     modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalMetroViewModelFactory provides appGraph.metroViewModelFactory) {
-        App(
-            navigator = appGraph.navigator,
-            modifier = modifier
-        )
+        WhippetTheme {
+            App(
+                navigator = appGraph.navigator,
+                modifier = modifier
+            )
+        }
     }
 }
 

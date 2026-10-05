@@ -14,7 +14,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
+import io.github.ilikeyourhat.whippet.ui.AppPreview
+import io.github.ilikeyourhat.whippet.ui.WhippetTheme
 
 @Composable
 fun DropdownMenuButton(
@@ -28,16 +29,23 @@ fun DropdownMenuButton(
         ) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
+                tint = WhippetTheme.colors.icon,
                 contentDescription = null
             )
         }
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            containerColor = WhippetTheme.colors.background
         ) {
             dropdownContent.forEach { item ->
                 DropdownMenuItem(
-                    text = { Text(item.text) },
+                    text = {
+                        Text(
+                            text = item.text,
+                            color = WhippetTheme.colors.text
+                        )
+                    },
                     onClick = {
                         expanded = false
                         item.onClick()
@@ -49,7 +57,7 @@ fun DropdownMenuButton(
 }
 
 @Composable
-@Preview
+@AppPreview
 private fun DropdownMenuButton_regular() {
     DropdownMenuButton(
         listOf(
