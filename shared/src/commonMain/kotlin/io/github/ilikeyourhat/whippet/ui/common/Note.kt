@@ -126,7 +126,7 @@ fun NoteCard(
 
 @AppPreview
 @Composable
-fun Note_withValue() {
+private fun `Note with value`() {
     Note(
         note = NoteEntity(
             title = "Example",
@@ -137,7 +137,7 @@ fun Note_withValue() {
 
 @AppPreview
 @Composable
-fun Note_withoutValue() {
+private fun `Note without value`() {
     Note(
         note = NoteEntity(
             title = "Example"
@@ -147,7 +147,7 @@ fun Note_withoutValue() {
 
 @AppPreview
 @Composable
-fun Note_withLongTitle() {
+private fun `Note with long title`() {
     Note(
         note = NoteEntity(
             title = "Example exampleeeeeeeeeeeeeeeeeeeee",
@@ -158,7 +158,7 @@ fun Note_withLongTitle() {
 
 @AppPreview
 @Composable
-fun Note_group() {
+private fun `Note group`() {
     NoteGroup(
         note = NoteEntity(
             title = "Example"

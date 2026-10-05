@@ -56,18 +56,18 @@ fun DropdownMenuButton(
     }
 }
 
+data class DropdownItemContent(
+    val text: String,
+    val icon: ImageVector? = null,
+    val onClick: () -> Unit = {},
+)
+
 @Composable
 @AppPreview
-private fun DropdownMenuButton_regular() {
+private fun `DropdownMenuButton regular`() {
     DropdownMenuButton(
         listOf(
             DropdownItemContent("test")
         )
     )
 }
-
-data class DropdownItemContent(
-    val text: String,
-    val icon: ImageVector? = null,
-    val onClick: () -> Unit = {},
-)

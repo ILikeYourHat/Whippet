@@ -31,14 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
+import io.github.ilikeyourhat.whippet.ui.AppPreview
 import io.github.ilikeyourhat.whippet.ui.common.Note
 import io.github.ilikeyourhat.whippet.ui.common.NoteContract
 import io.github.ilikeyourhat.whippet.ui.common.NoteGroup
-import kotlin.contracts.contract
 import kotlin.uuid.Uuid
 
 @Composable
@@ -202,8 +201,8 @@ private fun NotesList(
 }
 
 @Composable
-@Preview
-fun NotesListScreen() {
+@AppPreview
+private fun `NotesListScreen with content`() {
     NotesListScreen(
         state = NotesListScreenState.Content(
             group = null,
@@ -220,6 +219,17 @@ fun NotesListScreen() {
                     value = "with text"
                 ),
             )
+        )
+    )
+}
+
+@Composable
+@AppPreview
+private fun `NotesListScreen empty`() {
+    NotesListScreen(
+        state = NotesListScreenState.Content(
+            group = null,
+            notes = emptyList()
         )
     )
 }
