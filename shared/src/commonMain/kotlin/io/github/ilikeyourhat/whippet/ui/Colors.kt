@@ -10,6 +10,7 @@ data class Colors(
     val text: Color,
     val icon: Color,
     val fab: Color,
+    val button: Color,
 )
 
 val LightThemeColors = Colors(
@@ -19,6 +20,7 @@ val LightThemeColors = Colors(
     text = Palette.black_80,
     icon = Palette.black_80,
     fab = Palette.brand_cyan,
+    button = Palette.brand_cyan,
 )
 
 val DarkThemeColors = Colors(
@@ -28,6 +30,7 @@ val DarkThemeColors = Colors(
     text = Palette.white_70,
     icon = Palette.white_70,
     fab = Palette.brand_purple,
+    button = Palette.brand_purple,
 )
 
 private object Palette {

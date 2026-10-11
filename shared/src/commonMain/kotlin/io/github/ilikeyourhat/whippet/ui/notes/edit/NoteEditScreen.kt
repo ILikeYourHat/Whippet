@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.ilikeyourhat.whippet.ui.WhippetTheme
+import io.github.ilikeyourhat.whippet.ui.button
+import io.github.ilikeyourhat.whippet.ui.textField
 import io.github.ilikeyourhat.whippet.ui.topAppBar
 import kotlin.uuid.Uuid
 
@@ -95,6 +97,7 @@ fun NoteEditScreen(
             ) {
                 val titleState = rememberTextFieldState(initialText = state.title)
                 OutlinedTextField(
+                    colors = WhippetTheme.colors.textField(),
                     label = {
                         Text("Name")
                     },
@@ -110,6 +113,7 @@ fun NoteEditScreen(
                 }
                 val textContentState = rememberTextFieldState(initialText = state.textContent)
                 OutlinedTextField(
+                    colors = WhippetTheme.colors.textField(),
                     label = {
                         Text("Content")
                     },
@@ -124,7 +128,8 @@ fun NoteEditScreen(
                 }
                 Button(
                     onClick = onSaveClick,
-                ) {
+                    colors = WhippetTheme.colors.button(),
+                    ) {
                     Icon(
                         imageVector = Icons.Filled.Save,
                         contentDescription = null,

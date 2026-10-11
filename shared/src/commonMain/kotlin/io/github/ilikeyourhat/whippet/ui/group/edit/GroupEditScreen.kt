@@ -29,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.ilikeyourhat.whippet.ui.WhippetTheme
+import io.github.ilikeyourhat.whippet.ui.button
+import io.github.ilikeyourhat.whippet.ui.textField
 import io.github.ilikeyourhat.whippet.ui.topAppBar
 import kotlin.uuid.Uuid
 
@@ -93,6 +95,7 @@ fun GroupEditScreen(
             ) {
                 val titleState = rememberTextFieldState(initialText = state.title)
                 OutlinedTextField(
+                    colors = WhippetTheme.colors.textField(),
                     label = {
                         Text("Name")
                     },
@@ -107,7 +110,8 @@ fun GroupEditScreen(
                         .collect(onTitleChange)
                 }
                 Button(
-                    onClick = onSaveClick
+                    onClick = onSaveClick,
+                    colors = WhippetTheme.colors.button(),
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Save,

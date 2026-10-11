@@ -4,14 +4,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import io.github.ilikeyourhat.whippet.ui.Colors
 import io.github.ilikeyourhat.whippet.ui.WhippetTheme
+import io.github.ilikeyourhat.whippet.ui.button
 import io.github.ilikeyourhat.whippet.ui.topAppBar
 
 @Composable
@@ -44,7 +48,8 @@ fun SettingsScreen(
                 .padding(16.dp)
         ) {
             Button(
-                onClick = onGitHubLinkClick
+                onClick = onGitHubLinkClick,
+                colors = WhippetTheme.colors.button(),
             ) {
                 Text(text = "Check me out on GitHub!")
             }
