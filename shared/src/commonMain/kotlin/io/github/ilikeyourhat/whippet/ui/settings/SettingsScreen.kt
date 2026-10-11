@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import io.github.ilikeyourhat.whippet.ui.WhippetTheme
+import io.github.ilikeyourhat.whippet.ui.topAppBar
 
 @Composable
 fun SettingsScreen(
@@ -32,7 +34,8 @@ fun SettingsScreen(
         TopAppBar(
             title = {
                 Text("Settings")
-            }
+            },
+            colors = WhippetTheme.colors.topAppBar(),
         )
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

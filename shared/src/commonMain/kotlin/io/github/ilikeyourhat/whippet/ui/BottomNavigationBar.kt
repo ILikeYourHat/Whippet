@@ -5,9 +5,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -29,12 +31,15 @@ fun BottomNavigationBar(
     val isCurrentScreen: (BottomNavigationScreen) -> Boolean = { it == currentBottomNavScreen }
 
     NavigationBar(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        containerColor = WhippetTheme.colors.surface,
+        contentColor = WhippetTheme.colors.icon
     ) {
         items.forEach { navigationItem ->
             NavigationBarItem(
                 selected = isCurrentScreen(navigationItem),
                 onClick = { onItemClick(navigationItem.screen()) },
+                colors = WhippetTheme.colors.navigationBarItem(),
                 icon = {
                     Icon(
                         imageVector = if (isCurrentScreen(navigationItem)) {
@@ -43,6 +48,7 @@ fun BottomNavigationBar(
                             navigationItem.unselectedIcon()
                         },
                         contentDescription = null,
+                        tint = WhippetTheme.colors.icon
                     )
                 },
                 label = {
@@ -54,7 +60,8 @@ fun BottomNavigationBar(
                             MaterialTheme.typography.labelMedium
                         },
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = WhippetTheme.colors.text
                     )
                 },
             )

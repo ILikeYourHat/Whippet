@@ -77,7 +77,7 @@ fun NoteCard(
     ) {
         Column(
             modifier = Modifier
-                .background(color = WhippetTheme.colors.background)
+                .background(color = WhippetTheme.colors.surface)
                 .clickable(
                     enabled = clickable,
                     onClick = { contract.onItemClick(id) }

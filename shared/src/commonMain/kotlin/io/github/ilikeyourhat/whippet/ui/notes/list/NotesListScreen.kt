@@ -1,5 +1,6 @@
 package io.github.ilikeyourhat.whippet.ui.notes.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,9 +37,11 @@ import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import io.github.ilikeyourhat.whippet.db.notes.NoteEntity
 import io.github.ilikeyourhat.whippet.ui.AppPreview
+import io.github.ilikeyourhat.whippet.ui.WhippetTheme
 import io.github.ilikeyourhat.whippet.ui.common.Note
 import io.github.ilikeyourhat.whippet.ui.common.NoteContract
 import io.github.ilikeyourhat.whippet.ui.common.NoteGroup
+import io.github.ilikeyourhat.whippet.ui.topAppBar
 import kotlin.uuid.Uuid
 
 @Composable
@@ -71,12 +75,17 @@ fun NotesListScreen(
     Column {
         TopAppBar(
             title = {
-                if (state is NotesListScreenState.Content) {
-                    Text(state.group?.title ?: "Whippet")
+                val title = if (state is NotesListScreenState.Content) {
+                    state.group?.title ?: "Whippet"
                 } else {
-                    Text("Loading...")
+                    "Loading..."
                 }
+                Text(
+                    text = title,
+                    color = WhippetTheme.colors.text
+                )
             },
+            colors = WhippetTheme.colors.topAppBar(),
             navigationIcon = {
                 if (state.isRoot) {
                     Icon(
@@ -96,7 +105,11 @@ fun NotesListScreen(
                 }
             }
         )
-        Box(modifier.fillMaxSize()) {
+        Box(
+            modifier
+                .background(color = WhippetTheme.colors.background)
+                .fillMaxSize()
+        ) {
             when (state) {
                 is NotesListScreenState.Content -> NotesList(
                     state.notes,
@@ -129,6 +142,7 @@ private fun FabSection(
         expanded = expanded,
         button = {
             FloatingActionButton(
+                containerColor = WhippetTheme.colors.fab,
                 onClick = { expanded = !expanded }
             ) {
                 Icon(
@@ -137,39 +151,50 @@ private fun FabSection(
                     } else {
                         Icons.Filled.Add
                     },
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = WhippetTheme.colors.icon
                 )
             }
         },
         modifier = modifier
     ) {
         FloatingActionButtonMenuItem(
+            containerColor = WhippetTheme.colors.fab,
             onClick = {
                 expanded = false
                 onAddGroupClick()
             },
             text = {
-                Text("New group")
+                Text(
+                    text = "New group",
+                    color = WhippetTheme.colors.text
+                )
             },
             icon = {
                 Icon(
-                    Icons.Filled.Folder,
-                    contentDescription = null
+                    imageVector = Icons.Filled.Folder,
+                    contentDescription = null,
+                    tint = WhippetTheme.colors.icon,
                 )
             }
         )
         FloatingActionButtonMenuItem(
+            containerColor = WhippetTheme.colors.fab,
             onClick = {
                 expanded = false
                 onAddNoteClick()
             },
             text = {
-                Text("New note")
+                Text(
+                    text = "New note",
+                    color = WhippetTheme.colors.text
+                )
             },
             icon = {
                 Icon(
-                    Icons.AutoMirrored.Filled.StickyNote2,
-                    contentDescription = null
+                    imageVector = Icons.AutoMirrored.Filled.StickyNote2,
+                    contentDescription = null,
+                    tint = WhippetTheme.colors.icon,
                 )
             }
         )

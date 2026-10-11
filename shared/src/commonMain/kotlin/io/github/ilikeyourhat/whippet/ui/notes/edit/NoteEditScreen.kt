@@ -28,6 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import io.github.ilikeyourhat.whippet.ui.WhippetTheme
+import io.github.ilikeyourhat.whippet.ui.topAppBar
 import kotlin.uuid.Uuid
 
 @Composable
@@ -77,7 +79,8 @@ fun NoteEditScreen(
                         contentDescription = null
                     )
                 }
-            }
+            },
+            colors = WhippetTheme.colors.topAppBar(),
         )
         if (state is NoteEditScreenState.Content) {
             Column(

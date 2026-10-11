@@ -1,8 +1,8 @@
 package io.github.ilikeyourhat.whippet
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -36,12 +36,10 @@ fun App(
     modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalMetroViewModelFactory provides appGraph.metroViewModelFactory) {
-        WhippetTheme {
-            App(
-                navigator = appGraph.navigator,
-                modifier = modifier
-            )
-        }
+        App(
+            navigator = appGraph.navigator,
+            modifier = modifier
+        )
     }
 }
 
@@ -63,9 +61,10 @@ fun App(
             }
         }
     }
-    MaterialTheme {
+    WhippetTheme {
         Column(
             modifier = modifier.fillMaxSize()
+                .background(color = WhippetTheme.colors.background)
         ) {
             NavHost(
                 navController = navController,
