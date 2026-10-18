@@ -55,7 +55,7 @@ android {
 
     lint {
         warningsAsErrors = true
-        lintConfig = file("$rootDir/lint.xml")
+        lintConfig = file("$projectDir/lint.xml")
     }
 }
 
