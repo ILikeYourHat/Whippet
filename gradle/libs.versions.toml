@@ -14,7 +14,7 @@ appdirs = "1.5.0"
 axion = "1.21.4"
 
 caupain = "1.10.1"
-compose-kmp = "1.12.1"
+compose-kmp = "1.12.2"
 
 junit = "4.13.2"
 
