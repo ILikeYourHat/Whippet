@@ -64,7 +64,7 @@ data class DropdownItemContent(
 
 @Composable
 @AppPreview
-private fun `DropdownMenuButton regular`() {
+private fun DropdownMenuButton_regular() {
     DropdownMenuButton(
         listOf(
             DropdownItemContent("test")

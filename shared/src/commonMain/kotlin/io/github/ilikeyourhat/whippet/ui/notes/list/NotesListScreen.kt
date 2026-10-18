@@ -227,7 +227,7 @@ private fun NotesList(
 
 @Composable
 @AppPreview
-private fun `NotesListScreen with content`() {
+private fun NotesListScreen_withContent() {
     NotesListScreen(
         state = NotesListScreenState.Content(
             group = null,
@@ -250,7 +250,7 @@ private fun `NotesListScreen with content`() {
 
 @Composable
 @AppPreview
-private fun `NotesListScreen empty`() {
+private fun NotesListScreen_empty() {
     NotesListScreen(
         state = NotesListScreenState.Content(
             group = null,
